@@ -1,4 +1,0 @@
-RDS_HOSTNAME=nurserydb.chdlpe2a2izs.eu-west-2.rds.amazonaws.com
-RDS_USERNAME=nurseryAdmin
-RDS_PASSWORD=meatismurder
-RDS_PORT=3306
