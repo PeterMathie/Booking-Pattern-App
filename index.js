@@ -21,10 +21,10 @@ app.set("view engine", "pug");
 
 // db
 var connectionDB = mysql.createConnection({
-  host: "nurserydb.chdlpe2a2izs.eu-west-2.rds.amazonaws.com",
-  user: "nurseryAdmin",
-  password: "meatismurder",
-  port: "3306",
+  host: process.env.RDS_HOSTNAME,
+  user: process.env.RDS_USERNAME,
+  password: process.env.RDS_PASSWORD,
+  port: process.env.RDS_PORT,
   database: "mydb"
 });
 
