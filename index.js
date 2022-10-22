@@ -6,6 +6,7 @@
 const express = require("express");
 const path = require("path");
 const mysql = require("mysql")
+require('dotenv').config();
 
 /**
  * App Variables
@@ -20,7 +21,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
 // db
-var connectionDB = mysql.createConnection({
+var connDB = mysql.createConnection({
   host: process.env.RDS_HOSTNAME,
   user: process.env.RDS_USERNAME,
   password: process.env.RDS_PASSWORD,
@@ -29,7 +30,7 @@ var connectionDB = mysql.createConnection({
 });
 
 
-connectionDB.connect(function (err) {
+connDB.connect(function (err) {
   if (err) {
     console.error('Database connection failed: ' + err.stack);
     return;
@@ -43,9 +44,12 @@ connectionDB.connect(function (err) {
  * Routes Definitions
  */
 
-app.get("/", (req, res) => {
-  res.render("index", { title: "Home" });
-});
+app.use('/', require('./Models/index')(connDB));
+app.use('/home', require('./Models/index')(connDB));
+
+app.use('/students', require('./Models/students')(connDB));
+
+
 
 /**
  * Server Activation
