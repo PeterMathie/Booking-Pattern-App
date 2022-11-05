@@ -1,0 +1,30 @@
+table{
+    display: table;
+    width: 100%;  
+    text-align: center;
+    color: #232323; 
+    font-family: "Verdana"; 
+}
+
+tr{
+    display: table-row;
+}
+
+
+thead{
+    background-color: rgb(84, 110, 84);
+    font-weight: 250;
+    color: #121212; 
+
+}
+th{
+    display: table-cell;
+}
+td{
+    background-color: rgb(182, 224, 199);
+    display: table-cell;
+
+}
+td:hover {
+    background-color: rgb(117, 230, 162);
+}

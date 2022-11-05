@@ -1,0 +1,73 @@
+extends layout
+
+block layout-content
+
+    form(class = "toggleButton", width = "25%")
+        
+        td( width = "25%") Student
+            input(type = "radio" value="Student" name = "toggle" checked=toggle=="Student")
+        td( width = "12%")  Teacher 
+            input(type = "radio" value="Teacher" name = "toggle" checked=toggle=="Teacher")
+        td( width = "25%" class = "roomCell1") Room 1
+            input(type = "radio" id = "rm1" value="1" name = "roomNo" checked=roomNo=="1")
+        td( width = "25%" class = "roomCell2") Room 2
+            input(type = "radio" id = "rm2" value="2" name = "roomNo" checked=roomNo=="2")
+        td( width = "25%" class = "roomCell3") Room 3
+            input(type = "radio" id = "rm3" value="3" name = "roomNo" checked=roomNo=="3")
+        button(type="submit") Submit
+    table
+        thead
+            tr 
+                th(height = "10%" width = "20%") Room #{roomNo}
+                th(height = "10%" width = "8%") Mm
+                th(height = "10%" width = "8%") Ma 
+                th(height = "10%" width = "8%") Tm
+                th(height = "10%" width = "8%") Ta
+                th(height = "10%" width = "8%") Wm 
+                th(height = "10%" width = "8%") Wa 
+                th(height = "10%" width = "8%") Thm
+                th(height = "10%" width = "8%") Tha
+                th(height = "10%" width = "8%") Fm
+                th(height = "10%" width = "8%") Fa
+        tr
+                td(height = "5%") #{toggle} Ratio
+                td(height = "5%")
+                td(height = "5%")
+                td(height = "5%")
+                td(height = "5%")
+                td(height = "5%")
+                td(height = "5%")
+                td(height = "5%")
+                td(height = "5%")
+                td(height = "5%")
+                td(height = "5%")
+        tr
+                td(height = "5%") Room Ratio
+                td(height = "5%")
+                td(height = "5%")
+                td(height = "5%")
+                td(height = "5%")
+                td(height = "5%")
+                td(height = "5%")
+                td(height = "5%")
+                td(height = "5%")
+                td(height = "5%")
+                td(height = "5%")
+    button(width = "100%" class ="addBtn") + #{toggle}  
+    table
+        each booking in bookingsArray.length ? bookingsArray : ['No Students']
+            tr
+                td(height = "5%" width = "20%") #{booking.idStudent}
+                td(height = "5%" width = "8%") #{booking.Mm} 
+                td(height = "5%" width = "8%") #{booking.Ma} 
+                td(height = "5%" width = "8%") #{booking.Tm}
+                td(height = "5%" width = "8%") #{booking.Ta}
+                td(height = "5%" width = "8%") #{booking.Wm} 
+                td(height = "5%" width = "8%") #{booking.Wa} 
+                td(height = "5%" width = "8%") #{booking.Thm}
+                td(height = "5%" width = "8%") #{booking.Tha} 
+                td(height = "5%" width = "8%") #{booking.Fm} 
+                td(height = "5%" width = "8%") #{booking.Fa}
+
+
+    link(rel='stylesheet', href='/stylesheets/bookingPatternStyle.css')

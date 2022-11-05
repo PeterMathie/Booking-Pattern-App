@@ -1,0 +1,47 @@
+.selectNamesBtn{
+    display: block;
+    line-height: 21px;
+    text-align: left;
+    width: 10%;
+}
+
+.dropDown{
+    display: block;
+    line-height: 21px;
+    text-align: left;
+    width: 10%;
+    list-style: none;
+}
+
+.selectNamesBtn{
+    display: block;
+    padding: 8px 25px;
+    background: rgb(178, 178, 178);
+    text-decoration: none;
+    border: none;
+}
+
+.dropDown{
+    position: absolute;
+    display: none;
+    margin-block-start: 0em;
+    background: rgb(178, 178, 178);
+    max-height:250px;/* you can change as you need it */
+    overflow:auto;/* to get scroll */
+    z-index: 999;
+}
+
+.selectNamesBtn:hover{
+    color: #fff;
+    background: #939393;
+}
+
+.selectNamesBtn:hover + ul.dropDown{
+    display: block;	/* Display the dropdown */
+}
+.dropDown:hover{
+    display: block;
+}
+.dropDownElems:hover{
+    background: #939393;
+}

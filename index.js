@@ -12,13 +12,15 @@ require('dotenv').config();
  * App Variables
  */
 const app = express();
-const port = process.env.PORT || "8000";
+const port = process.env.PORT || "8064";
 
 /**
  *  App Configuration
  */
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
+app.use(express.static(path.join(__dirname, "public")));
+
 
 // db
 var connDB = mysql.createConnection({
@@ -48,8 +50,18 @@ app.use('/', require('./Models/index')(connDB));
 app.use('/home', require('./Models/index')(connDB));
 
 app.use('/students', require('./Models/students')(connDB));
+app.use('/teachers', require('./Models/teachers')(connDB));
+
+app.use('/updateStudents', require('./Models/updateStudents')(connDB));
+
+app.use('/bookingPatterns', require('./Models/bookingPatterns')(connDB));
+
+/*
+app.use('/updateTeachers', require('./Models/updateTeachers')(connDB));
+app.use('/updateRooms', require('./Models/updateRooms')(connDB));
 
 
+*/
 
 /**
  * Server Activation
@@ -58,7 +70,6 @@ app.use('/students', require('./Models/students')(connDB));
 app.listen(port, () => {
   console.log(`Listening to requests on http://localhost:${port}`);
 });
-
 
 
 

@@ -1,0 +1,23 @@
+
+
+.navBar{
+    overflow: hidden;
+    background-color: #4d5a5a;
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    
+
+}
+
+.navBtn{
+    padding: 14px 16px;
+    text-decoration: none;
+    color: whitesmoke; 
+    font-family: "Verdana"; 
+}
+
+.navBtn:hover{
+    background-color: #252923ae;
+
+}

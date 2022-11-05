@@ -1,6 +1,14 @@
 block variables
 doctype html
 html
+  div(class = "navBar")
+    a(class = "navBtn" href="/") home
+    a(class = "navBtn" href="/students") Students
+    a(class = "navBtn" href="/teachers") Teachers
+    a(class = "navBtn" href="/updateStudents") Update Students
+    a(class = "navBtn" href="/updateTeachers") Update Teachers
+    a(class = "navBtn" href="/updateRooms") Update Rooms  
+    a(class = "navBtn" href="/bookingPatterns") Booking patterns
   head
     meta(charset="utf-8")
     link(rel="shortcut icon", href="/favicon.ico")
@@ -10,3 +18,7 @@ html
   body
     div#root
       block layout-content
+      
+  link(rel='stylesheet', href='/stylesheets/style.css')
+  link(rel='stylesheet', href='/stylesheets/tableStyle.css')
+

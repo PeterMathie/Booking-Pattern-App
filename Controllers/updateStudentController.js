@@ -1,3 +1,25 @@
+module.exports = (connDB, io) => {
+
+    let updateStudentController = {}
+    
+    updateStudentController.studentNames = (req, res, next) => {
+    
+        connDB.query(
+            "SELECT Name FROM Student",
+            (error, results, fields) => {
+                if(error) {
+                    console.log("error "+ error + "\n")
+                    //throw error;
+                }
+                //console.log(results)
+
+                console.log("Number of students: "+ results[1].length)
+                res.render("updateStudents",{ studentsNameArray: results} );
+            });
+        }
+    return updateStudentController;
+}
+/*
 function randomDate(start, end) {
     var d = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())),
         month = '' + (d.getMonth() + 1),
@@ -53,14 +75,14 @@ function getEndDate(DoB){
     return end;
 }
 
-
+*/
 
 
 
 /*
   Adds students to the database
 */
-
+/*
 var date = new Date()
 var DoB = randomDate(new Date(date.setFullYear(date.getFullYear()-5)), new Date());
 var ageMonths = getAgeMonths(DoB, new Date());
@@ -68,7 +90,7 @@ var roomStart = randomDate(new Date() ,new Date(2023, 5, 1));
 var roomEnd = getRoomEnd(DoB, ageMonths);
 var end = getEndDate(DoB);
 var room = getRoom(DoB, roomStart);
-
+*/
 /*console.log("Age:      "+ageMonths+"\
         \nDoB:      "+ DoB +"\
         \nRoom:     "+ room +"\
@@ -76,10 +98,13 @@ var room = getRoom(DoB, roomStart);
         \nRoom End: "+ roomEnd +"\
         \nEnd:      "+ end);
 */
+
+/*
 if(room==undefined){
     throw {error : "Child too old."}; 
 }
-connectionDB.query(
+
+connDB.query(
     'INSERT INTO Student(Name, DoB, ageMonths, idRoom, RoomStart, RoomEnd, End) VALUES(?,?,?,?,?,?,?)',
     [makeid(5), DoB, ageMonths, room, roomStart, roomEnd, end],
     (error, results, fields) => {
@@ -88,3 +113,6 @@ connectionDB.query(
     }
     console.log("\nNew Student row added\n");
 });
+*/
+
+

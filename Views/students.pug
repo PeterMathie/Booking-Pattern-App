@@ -1,13 +1,25 @@
 extends layout
 
 block layout-content
-  div.View.UserView
-    h1.Banner Howdy, #{userProfile.nickname}!
-    div.Message
-      div.Title
-        h3 Making Us the Best
-        h1 Teammate Profile
-      pre.Details=JSON.stringify(userProfile, null, 2)
-    div.NavButtons
-      a(href="/home")
-        div.NavButton Home
+  table
+    thead
+      tr 
+        th(width = "12.5%") idStudent
+        th(width = "12.5%") Name 
+        th(width = "12.5%") DoB 
+        th(width = "12.5%") Age Months
+        th(width = "12.5%") Room
+        th(width = "12.5%") Room Start 
+        th(width = "12.5%") Room End 
+        th(width = "12.5%") End
+    tbody
+      each student in studentsArray.length ? studentsArray : ['No Students']
+        tr
+          td #{student.idStudent}
+          td #{student.Name}
+          td #{student.DoB}
+          td #{student.ageMonths}
+          td #{student.idRoom}
+          td #{student.RoomStart}
+          td #{student.RoomEnd}
+          td #{student.End} 

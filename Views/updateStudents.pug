@@ -1,0 +1,10 @@
+extends layout 
+
+block layout-content
+  a(class = "selectNamesBtn") Select Student
+  ul(class = "dropDown")
+    each student in studentsNameArray.length ? studentsNameArray : ['No Students']
+      li(class = "dropDownElems")
+        a(href="/updateStudents/") #{student.Name}
+  link(rel='stylesheet', href='/stylesheets/updateStudents.css')
+
