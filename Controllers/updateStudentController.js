@@ -2,24 +2,42 @@ module.exports = (connDB, io) => {
 
     let updateStudentController = {}
     
-    updateStudentController.studentNames = (req, res, next) => {
-    
-        connDB.query(
-            "SELECT Name FROM Student",
-            (error, results, fields) => {
-                if(error) {
-                    console.log("error "+ error + "\n")
-                    //throw error;
-                }
-                //console.log(results)
+    updateStudentController.seedStudents = (req, res, next) => {
 
-                console.log("Number of students: "+ results[1].length)
-                res.render("updateStudents",{ studentsNameArray: results} );
-            });
-        }
+        var name = makeid(5);
+        var date = new Date()
+        var DoB = randomDate(new Date(date.setFullYear(date.getFullYear()-5)), new Date());
+        var roomOneEnd = getOneEnd(DoB);
+        var roomTwoEnd = getTwoEnd(DoB);
+        var roomThreeEnd = getThreeEnd(DoB);
+        var startDate = randomDate(DoB ,roomThreeEnd);
+
+        connDB.query(
+            'INSERT INTO Student(Name, DoB, startDate, roomOneEnd, roomTwoEnd, roomThreeEnd)\
+            VALUES(?,?,?,?,?,?)',
+            [name, DoB, startDate, roomOneEnd, roomTwoEnd, roomThreeEnd],
+            (error, results, fields) => {
+            if (error) {
+                throw error;
+            }
+            console.log("\nNew Student row added\n");
+        });
+
+        connDB.query(
+            'SELECT * FROM Student',
+            (error, results, fields) => {
+            if (error) {
+                throw error;
+            }
+            res.render("index", { title: "Home" });
+        });
+
+
+
+    }
     return updateStudentController;
 }
-/*
+
 function randomDate(start, end) {
     var d = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())),
         month = '' + (d.getMonth() + 1),
@@ -58,61 +76,24 @@ function getRoom(DoB, roomStart){
     console.log("TOO OLD");
 }
 
-function getRoomEnd(DoB,ageMonths){
+function getOneEnd(DoB){
     var endDate = new Date(DoB);
-    console.log(endDate)
-    if     (ageMonths < 24){endDate.setDate(endDate.getDate() + 365*2);}
-    else if(ageMonths < 36){endDate.setDate(endDate.getDate() + 365*3);}
-    else if(ageMonths < 60){endDate.setDate(endDate.getDate() + 365*5);}
+    endDate.setDate(endDate.getDate() + 365*2);
+
+    return endDate;
+}
+function getTwoEnd(DoB){
+    var endDate = new Date(DoB);
+    endDate.setDate(endDate.getDate() + 365*3);
+
+    return endDate;
+}
+function getThreeEnd(DoB){
+    var endDate = new Date(DoB);
+    endDate.setDate(endDate.getDate() + 365*5);
 
     return endDate;
 }
 
-function getEndDate(DoB){
-    var end = new Date(DoB);
-
-    end.setDate(end.getDate() + 365*5);
-    return end;
-}
-
-*/
-
-
-
-/*
-  Adds students to the database
-*/
-/*
-var date = new Date()
-var DoB = randomDate(new Date(date.setFullYear(date.getFullYear()-5)), new Date());
-var ageMonths = getAgeMonths(DoB, new Date());
-var roomStart = randomDate(new Date() ,new Date(2023, 5, 1));
-var roomEnd = getRoomEnd(DoB, ageMonths);
-var end = getEndDate(DoB);
-var room = getRoom(DoB, roomStart);
-*/
-/*console.log("Age:      "+ageMonths+"\
-        \nDoB:      "+ DoB +"\
-        \nRoom:     "+ room +"\
-        \nRoom Str: "+ roomStart +"\
-        \nRoom End: "+ roomEnd +"\
-        \nEnd:      "+ end);
-*/
-
-/*
-if(room==undefined){
-    throw {error : "Child too old."}; 
-}
-
-connDB.query(
-    'INSERT INTO Student(Name, DoB, ageMonths, idRoom, RoomStart, RoomEnd, End) VALUES(?,?,?,?,?,?,?)',
-    [makeid(5), DoB, ageMonths, room, roomStart, roomEnd, end],
-    (error, results, fields) => {
-    if (error) {
-        throw error;
-    }
-    console.log("\nNew Student row added\n");
-});
-*/
 
 

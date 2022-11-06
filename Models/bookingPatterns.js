@@ -10,9 +10,7 @@ module.exports = (connDB, io) => {
     router.get("/", (req, res, next) => {
         bookingPatternsController.bookingPatterns(req, res, next);
     });
-    router.get("/home", (req, res, next) => {
-        indexController.index(req, res, next);
-    });
+    
     return router;
 
 }

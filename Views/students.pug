@@ -4,22 +4,18 @@ block layout-content
   table
     thead
       tr 
-        th(width = "12.5%") idStudent
-        th(width = "12.5%") Name 
-        th(width = "12.5%") DoB 
-        th(width = "12.5%") Age Months
-        th(width = "12.5%") Room
-        th(width = "12.5%") Room Start 
-        th(width = "12.5%") Room End 
-        th(width = "12.5%") End
+        th(width = "16.6667%") Name 
+        th(width = "16.6667%") DoB 
+        th(width = "16.6667%") Start Date
+        th(width = "16.6667%") Room 1 End
+        th(width = "16.6667%") Room 2 End 
+        th(width = "16.6667%") Room 3 End 
     tbody
       each student in studentsArray.length ? studentsArray : ['No Students']
         tr
-          td #{student.idStudent}
           td #{student.Name}
           td #{student.DoB}
-          td #{student.ageMonths}
-          td #{student.idRoom}
-          td #{student.RoomStart}
-          td #{student.RoomEnd}
-          td #{student.End} 
+          td #{student.startDate}
+          td #{student.roomOneEnd}
+          td #{student.roomTwoEnd}
+          td #{student.roomThreeEnd}

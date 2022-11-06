@@ -4,11 +4,9 @@ block layout-content
   table
     thead
       tr 
-        th(width = "33.3%") idTeacher
-        th(width = "33.3%") Name 
-        th(width = "33.3%") Level 
+        th(width = "50%") Name 
+        th(width = "50%") Level 
     each teacher in teachersArray.length ? teachersArray : ['No Teachers']
       tr
-        td #{teacher.idTeacher}
         td #{teacher.Name}
         td #{teacher.Level}

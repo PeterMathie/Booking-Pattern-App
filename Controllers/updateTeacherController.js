@@ -1,3 +1,31 @@
+module.exports = (connDB, io) => {
+
+    let updateTeacherController = {}
+    
+    updateTeacherController.seedTeachers = (req, res, next) => {
+    
+
+        /*
+        Adds teachers to the database
+        */
+        connDB.query(
+            'INSERT INTO Teacher(Name, Level) VALUES(?,?)',
+            [makeid(5), randomInt(0,5)],
+            (error, results, fields) => {
+            if (error) {
+                throw error;
+            }
+            console.log("\nNew Teacher row added \n");
+        });
+
+
+        res.render("index", { title: "Home" });
+
+    }
+    return updateTeacherController
+}
+
+
 function randomInt(min, max) { 
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
@@ -11,18 +39,5 @@ function makeid(length) {
     }
     return result;
 }
-
-/*
-  Adds teachers to the database
-*/
-connectionDB.query(
-    'INSERT INTO Teacher(Name, Level) VALUES(?,?)',
-    [makeid(5), randomInt(0,5)],
-    (error, results, fields) => {
-    if (error) {
-        throw error;
-    }
-    console.log("\nNew Teacher row added \n");
-});
 
 

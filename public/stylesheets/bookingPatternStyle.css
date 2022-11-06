@@ -1,81 +1,47 @@
-div.toggleButton{
-    background-color: #5bb069;
-    display:table;
-    width: 100%;
-    border: 0px;
+.addBtn{
+  background-color: #5bb069;
+  justify-content: center;
+  
 }
-div.toggleButton span{
-    display: table-cell;
-    text-align: center;
+.addBtn:hover{
+  background-color: #252923ae;
 }
 
-#rm1:checked + .rm1Cell{
-    display: table-cell;
-}
-#rm2:checked + .rm2Cell{
-    display: table-cell;
-}
-#rm3:checked + .rm3Cell{
-    display: table-cell;
+.nameHeading{
+  background-color: rgb(84, 110, 84);
+
+  display: inline-block;
 }
 
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-  }
-  
-  .switch input { 
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  input:checked + .slider {
-    background-color: rgb(117, 230, 162);
-  }
-  
-  
-  input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-  }
+table#formTable{
+  width: 40vw;
 
-
-  .addStudentBtn{
-    display: inline-flex;
-    width: 100%;
-    border-radius: 0%;
-    border: 1px;
-    justify-content: center;
-    
 }
-.addStudentBtn:hover{
-    background-color: #252923ae;
+
+table#toggleSelect{
+  width: 50vw;
+
+}
+
+
+table#formTable1{
+  width: 20vw;
+
+}
+
+table#formTable2{
+  width: 20vw;
+
+}
+.submitbtn{
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  background-color: rgb(84, 110, 84);
+
+
+}
+.submitCell{
+  background-color: rgb(84, 110, 84)
 }

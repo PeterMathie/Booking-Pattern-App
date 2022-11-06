@@ -1,30 +1,31 @@
 table{
     display: table;
-    width: 100%;  
+    width: 100vw;  
     text-align: center;
     color: #232323; 
     font-family: "Verdana"; 
+    border-spacing: 0.2vw;
+}
+
+th{
+    background-color: rgb(84, 110, 84);
+    color: #121212;
+    height: 5vh;
+    width: 8vw;
 }
 
 tr{
-    display: table-row;
+    height: 2vh;
+    width: 8vw;
 }
 
-
-thead{
-    background-color: rgb(84, 110, 84);
-    font-weight: 250;
-    color: #121212; 
-
-}
-th{
-    display: table-cell;
-}
 td{
     background-color: rgb(182, 224, 199);
-    display: table-cell;
-
 }
 td:hover {
     background-color: rgb(117, 230, 162);
+}
+
+.col1{
+    width:20vw
 }

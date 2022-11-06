@@ -8,11 +8,11 @@ module.exports = (connDB, io) => {
 
     /* GET home page. */
     router.get("/", (req, res, next) => {
+        console.log(req)
+
         studentController.students(req, res, next);
     });
-    router.get("/home", (req, res, next) => {
-        indexController.index(req, res, next);
-    });
+
     return router;
 
 }

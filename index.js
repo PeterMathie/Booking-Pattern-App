@@ -52,15 +52,16 @@ app.use('/home', require('./Models/index')(connDB));
 app.use('/students', require('./Models/students')(connDB));
 app.use('/teachers', require('./Models/teachers')(connDB));
 
-app.use('/updateStudents', require('./Models/updateStudents')(connDB));
-
 app.use('/bookingPatterns', require('./Models/bookingPatterns')(connDB));
 
-/*
+app.use('/updateStudents', require('./Models/updateStudents')(connDB));
 app.use('/updateTeachers', require('./Models/updateTeachers')(connDB));
+
+app.use('/updatePatterns', require('./Models/updatePatterns')(connDB));
+
+
+/*
 app.use('/updateRooms', require('./Models/updateRooms')(connDB));
-
-
 */
 
 /**
