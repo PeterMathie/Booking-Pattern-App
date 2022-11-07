@@ -5,10 +5,12 @@ module.exports = (connDB, io) => {
 
     var router = express.Router();
 
-    /* GET home page. */
+    /* add student to DB. */
     router.get("/", (req, res, next) => {
         updateStudentController.seedStudents(req, res, next);
     });
+
+  
  
     return router;
 

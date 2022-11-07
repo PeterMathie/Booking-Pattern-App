@@ -48,21 +48,31 @@ block layout-content
             td()
             td()
         tr
-            td(class = "col1") Room Ratio
-            td()
-            td()
-            td()
-            td()
-            td()
-            td()
-            td()
-            td()
-            td()
-            td()
+            td(class = "col1") Ramaing Area
+            td() #{roomRatio[0]}m
+                sup 2
+            td() #{roomRatio[1]}m
+                sup 2
+            td() #{roomRatio[2]}m
+                sup 2
+            td() #{roomRatio[3]}m
+                sup 2
+            td() #{roomRatio[4]}m
+                sup 2
+            td() #{roomRatio[5]}m
+                sup 2
+            td() #{roomRatio[6]}m
+                sup 2
+            td() #{roomRatio[7]}m
+                sup 2
+            td() #{roomRatio[8]}m
+                sup 2
+            td() #{roomRatio[9]}m
+                sup 2
         tr
             th(class = "col1") Name 
             th(colspan="10" class ="addBtn") + #{toggle}  
-        each booking in bookingsArray.length ? bookingsArray : ['No Students']
+        each booking in bookingsArray ? bookingsArray : ['No Students']
             tr
                 td(class = "col1") #{booking.Name}
                 td() #{booking.Mm} 

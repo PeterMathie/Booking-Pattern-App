@@ -1,6 +1,13 @@
 module.exports = (connDB, io) => {
 
     let updateStudentController = {}
+    updateStudentController.updateStudents = (req, res, next) => {
+        
+    
+    
+    }
+
+
     
     updateStudentController.seedStudents = (req, res, next) => {
 
