@@ -1,3 +1,5 @@
+const { render } = require("pug");
+
 module.exports = (connDB, io) => {
 
     let bookingPatternsController = {}
@@ -11,44 +13,112 @@ module.exports = (connDB, io) => {
         var roomNo = searchURL.get("roomNo") == null ? "1" : searchURL.get("roomNo");
         var date = searchURL.get("date") == null ? new Date().toJSON().toString().slice(0, 10) : searchURL.get("date");
         
-        
+        var bookingPatternsStudents;
+        var bookingPatternsTeachers;
+        var bookingPatterns;
+
+        var roomRatios;
+        var weightedSumStudents;
+        var sumTeachers;
+        var teachRatios; 
+
         var roomSize;
         getRoomSize(connDB, roomNo, function(result){
             roomSize = result;
         });
-        var roomRatios;
-        var bookingPatterns;
-        getBookingPattern(connDB, toggle, roomNo, date, function(result){
-            bookingPatterns = result
-            roomRatio = getRoomRatio(bookingPatterns, roomSize, date)
-            res.render("bookingPatterns",{toggle: toggle, roomNo: roomNo, bookingsArray: bookingPatterns, roomRatios: roomRatios} );
+        
+        // get the booking pattern for the students for that week and room
+        getBookingPatternStudent(connDB, roomNo, date, function(result){
+            bookingPatternsStudents = result;
 
+            getBookingPatternTeacher(connDB, toggle, roomNo, date, function(result){
+                bookingPatternsTeachers = result;
+                
+                sumTeachers         = getTeachSum(bookingPatternsTeachers, roomSize, date);
+                weightedSumStudents = getWeightedSum(bookingPatternsStudents, roomSize, date);
+            
+                roomRatios          = getRoomRatio(bookingPatternsStudents, roomSize, date);
+                teachRatios         = getTeachRatios(sumTeachers, weightedSumStudents) 
+
+                switch(toggle){
+                    case "Teacher":
+                        bookingPatterns = bookingPatternsTeachers;
+                        break;
+                    case "Student":
+                        bookingPatterns = bookingPatternsStudents;
+                        break;
+                }
+                renderBookingPatterns(res, toggle, roomNo, bookingPatterns, roomRatios , teachRatios)
+                
+            })
         });
-
+       
 
     }
+    bookingPatternsController.futureBookingPatterns = (req, res, next) => {
+        for(i = 0; i < 52; i++){
+
+            bookingPatterns()
+        }
+    }
+
     return bookingPatternsController;
 
 }
 
+/** ---------- Helper Functions ---------- */
+
+function renderBookingPatterns(res, toggle, roomNo, bookingPatterns, roomRatios, teachRatios){
+
+    res.render("bookingPatterns",{toggle: toggle, roomNo: roomNo, bookingPatterns: bookingPatterns, roomRatios: roomRatios, teachRatios: teachRatios} );
+}
+
+
+// Maps ages to the space required
 function getRule(ageMonths){
     if(0 <= ageMonths && ageMonths < 24){
-
         return 3.5;
     }
     if(24 <= ageMonths && ageMonths < 36){
-
         return 2.5;
     }
     if(36 <= ageMonths && ageMonths < 60){
-
         return 2.3;
     }
 }
 
+// Maps ages to the number of teacher required for that age
+function getWeight(ageMonths){
+    if(0 <= ageMonths && ageMonths < 24){
+        return (1/3);
+    }
+    if(24 <= ageMonths && ageMonths < 36){
+        return (1/4);
+    }
+    if(36 <= ageMonths && ageMonths < 60){
+        return (1/8);
+    }
+}
+
+
+/*  
+    
+    Gets the remaining space for the room on that date
+    Data is returned as a array size 10, 
+    where 0 maps to addtional space for Mm (Monday Morning)
+    and   9 maps to addtional space for Fa (Friday Afternoon)
+
+    every increment of 1 maps to the next timeslot
+
+    Negative values represent too many children for that sized room in that timeslot
+
+*/ 
+
 function getRoomRatio(results, roomSize, date){
 
     roomRatios = [roomSize, roomSize, roomSize, roomSize, roomSize, roomSize, roomSize, roomSize, roomSize, roomSize]
+    
+
     date = new Date(date)
         for( i in results){
             var ageMonths = date.getMonth() - results[i].DoB.getMonth() + 12 * (date.getFullYear() - results[i].DoB.getFullYear());   
@@ -70,7 +140,7 @@ function getRoomRatio(results, roomSize, date){
             if(results[i].Wa){ 
                 roomRatios[5]-=getRule(ageMonths);
             }
-            if(results[i].Thm){ 
+            if(results[i].Thm){
                 roomRatios[6]-=getRule(ageMonths);
             }
             if(results[i].Tha){ 
@@ -83,61 +153,151 @@ function getRoomRatio(results, roomSize, date){
                 roomRatios[9]-=getRule(ageMonths);
             }
         }
-
         return roomRatios.map(x => x.toPrecision(4));
 
     }
 
 
+/*
 
-    function getTeachRatio(results, countTeach, date){
-        var defaultValue = {sumTeachers:0, weightedSumStudents:0};
-        var teachRatios = [];
-        for(i in 10){
-            teachRatios.push(defaultValues)
+    The function returns a sum of the children in a room for a given timeslot
+    Children are weighted such that weigh as much as one teacher can legally look after
+
+    The algorithm for checking validity of 1 time slot: {
+    
+    Sum of teachers = T
+    Sum students    = S
+
+    for each child aged 0-2 -> S+=1/3
+    for each child aged 2-3 -> S+=1/4
+    for each child aged 3-5 -> S+=1/8
+
+    if (T/S < 1) -> INVALID STATE
+    if (T/S >=1) -> VALID STATE
+
+    }
+
+*/
+function getWeightedSum(results, roomSize, date){
+    weightedSum = [0,0,0,0,0,0,0,0,0,0]
+
+    date = new Date(date)
+    for( i in results){
+        var ageMonths = date.getMonth() - results[i].DoB.getMonth() + 12 * (date.getFullYear() - results[i].DoB.getFullYear());   
+        if(results[i].Mm){ 
+            weightedSum[0] += getWeight(ageMonths)
         }
-        
-        date = new Date(date)
-            for( i in results){
-                var ageMonths = date.getMonth() - results[i].DoB.getMonth() + 12 * (date.getFullYear() - results[i].DoB.getFullYear());   
-                if(results[i].Mm){ 
-                    roomRatios[0]-=getRule(ageMonths);
-                }
-                if(results[i].Ma){ 
-                    roomRatios[1]-=getRule(ageMonths);
-                }
-                if(results[i].Tm){ 
-                    roomRatios[2]-=getRule(ageMonths);
-                }
-                if(results[i].Ta){ 
-                    roomRatios[3]-=getRule(ageMonths);
-                }
-                if(results[i].Wm){ 
-                    roomRatios[4]-=getRule(ageMonths);
-                }
-                if(results[i].Wa){ 
-                    roomRatios[5]-=getRule(ageMonths);
-                }
-                if(results[i].Thm){ 
-                    roomRatios[6]-=getRule(ageMonths);
-                }
-                if(results[i].Tha){ 
-                    roomRatios[7]-=getRule(ageMonths);
-                }
-                if(results[i].Fm){ 
-                    roomRatios[8]-=getRule(ageMonths);
-                }
-                if(results[i].Fa){ 
-                    roomRatios[9]-=getRule(ageMonths);
-                }
+        if(results[i].Ma){ 
+            weightedSum[1] += getWeight(ageMonths)
+        }
+        if(results[i].Tm){ 
+            weightedSum[2] += getWeight(ageMonths)
+        }
+        if(results[i].Ta){ 
+            weightedSum[3] += getWeight(ageMonths)
+        }
+        if(results[i].Wm){ 
+            weightedSum[4] += getWeight(ageMonths)
+        }
+        if(results[i].Wa){ 
+            weightedSum[5] += getWeight(ageMonths)
+        }
+        if(results[i].Thm){
+            weightedSum[6] += getWeight(ageMonths)
+        }
+        if(results[i].Tha){ 
+            weightedSum[7] += getWeight(ageMonths)
+        }
+        if(results[i].Fm){ 
+            weightedSum[8] += getWeight(ageMonths)
+        }
+        if(results[i].Fa){ 
+            weightedSum[9] += getWeight(ageMonths)
+        }
+    }
+
+    return weightedSum.map(x => x.toPrecision(4));
+
+}
+
+/*
+
+    Returns the number of teachers on that room for a given timeslot
+    
+    The results have already been filtered for date and room
+
+*/
+
+function getTeachSum(results){
+    teachSum = [0,0,0,0,0,0,0,0,0,0]
+
+    for( i in results){
+        if(results[i].Mm){ 
+            teachSum[i] += 1;
+        }
+        if(results[i].Ma){  
+            teachSum[i] += 1;
+        }
+        if(results[i].Tm){  
+            teachSum[i] += 1;
+        }
+        if(results[i].Ta){  
+            teachSum[i] += 1;
+        }
+        if(results[i].Wm){  
+            teachSum[i] += 1;
+        }
+        if(results[i].Wa){  
+            teachSum[i] += 1;
+        }
+        if(results[i].Thm){ 
+            teachSum[i] += 1;
+        }
+        if(results[i].Tha){  
+            teachSum[i] += 1;
+        }
+        if(results[i].Fm){  
+            teachSum[i] += 1;
+        }
+        if(results[i].Fa){  
+            teachSum[i] += 1;
+        }
+    }
+
+    return teachSum;
+}
+    
+
+function getTeachRatios(sumTeachers, weightedSumStudents) {
+    teachRatios = sumTeachers.map(function(n, i) { 
+            ratio = n/weightedSumStudents[i];
+            if(isNaN(ratio)){
+                ratio = 0;
             }
-    
-            return roomRatios.map(x => x.toPrecision(4));
-    
-        }
+        return ratio.toPrecision(4);
+    });
+    return teachRatios;
+
+}
+
+/** ---------- QUERIES ---------- */
 
 
-function getBookingPattern(connDB, toggle, roomNo, date, callback){
+/**
+ * 
+ * @param {*} connDB connection to the Database
+ * @param {*} roomNo The room being queried from the databse, derives the student's individual start and end date
+ * @param {*} date The date being checked
+ * @param {*} callback callback function to be called after the asyn function .query() has returned a result
+ 
+    Retunrs the booking patterns of the students for filling into the 
+
+ */
+function getBookingPatternStudent(connDB, roomNo, date, callback){
+
+    var upperDateCol;
+    var lowerDateCol;
+
     if(roomNo == 3){
         upperDateCol = "roomThreeEnd"
         lowerDateCol = "roomTwoEnd"
@@ -154,14 +314,14 @@ function getBookingPattern(connDB, toggle, roomNo, date, callback){
         //roomOneEnd > date > startDate
     }
     if(roomNo != 1 && roomNo != 2 && roomNo != 3){
-        res.render("bookingPatterns",{toggle: toggle, roomNo: roomNo, bookingsArray: bookingsArray} );
+        console.log("Invalid room!")
     }
 
     connDB.query(
         "SELECT Mm, Ma, Tm, Ta, Wm, Wa, Thm, Tha, Fm, Fa, \
         Name, DoB, startDate, roomOneEnd, roomTwoEnd, roomThreeEnd "+ lowerDateCol +", "+ upperDateCol +" \
-        FROM BookingPattern_"+ toggle +"s, Student \
-        WHERE BookingPattern_"+ toggle +"s.idStudent = Student.idStudent \
+        FROM BookingPattern_Students, Student \
+        WHERE BookingPattern_Students.idStudent = Student.idStudent \
         AND Student.startDate < '"+ date +"'\
         AND Student."+upperDateCol+" >  '"+ date +"'\
         AND Student."+lowerDateCol+" <  '"+ date +"'\
@@ -179,6 +339,25 @@ function getBookingPattern(connDB, toggle, roomNo, date, callback){
     }
 
 
+function getBookingPatternTeacher(connDB, toggle, roomNo, date, callback){
+
+    connDB.query(
+        "SELECT Mm, Ma, Tm, Ta, Wm, Wa, Thm, Tha, Fm, Fa, \
+        endDate, Name \
+        FROM BookingPattern_Teachers, Teacher \
+        WHERE BookingPattern_Teachers.idTeacher = Teacher.idTeacher \
+        AND BookingPattern_Teachers.idRoom = "+ roomNo +"\
+        GROUP BY Teacher.idTeacher",
+        (error, results, fields) => {
+            if(error) {
+                console.log("error "+ error + "\n")
+                //throw error;
+            }
+            callback(results)
+        }
+    );
+
+}
 
 
 

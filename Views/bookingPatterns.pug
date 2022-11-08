@@ -36,43 +36,46 @@ block layout-content
                 th() Fm
                 th() Fa
         tr
-            td(class = "col1") #{toggle} Ratio
-            td()
-            td()
-            td()
-            td()
-            td()
-            td()
-            td()
-            td()
-            td()
-            td()
+            td(class = "col1") #{toggle} Teacher Ratio
+                br
+                sub 
+                    sup (Must be greater than 1)
+            td() #{teachRatios[0]} 
+            td() #{teachRatios[1]} 
+            td() #{teachRatios[2]} 
+            td() #{teachRatios[3]} 
+            td() #{teachRatios[4]} 
+            td() #{teachRatios[5]} 
+            td() #{teachRatios[6]} 
+            td() #{teachRatios[7]} 
+            td() #{teachRatios[8]} 
+            td() #{teachRatios[9]} 
         tr
             td(class = "col1") Ramaing Area
-            td() #{roomRatio[0]}m
+            td() #{roomRatios[0]}m
                 sup 2
-            td() #{roomRatio[1]}m
+            td() #{roomRatios[1]}m
                 sup 2
-            td() #{roomRatio[2]}m
+            td() #{roomRatios[2]}m
                 sup 2
-            td() #{roomRatio[3]}m
+            td() #{roomRatios[3]}m
                 sup 2
-            td() #{roomRatio[4]}m
+            td() #{roomRatios[4]}m
                 sup 2
-            td() #{roomRatio[5]}m
+            td() #{roomRatios[5]}m
                 sup 2
-            td() #{roomRatio[6]}m
+            td() #{roomRatios[6]}m
                 sup 2
-            td() #{roomRatio[7]}m
+            td() #{roomRatios[7]}m
                 sup 2
-            td() #{roomRatio[8]}m
+            td() #{roomRatios[8]}m
                 sup 2
-            td() #{roomRatio[9]}m
+            td() #{roomRatios[9]}m
                 sup 2
         tr
             th(class = "col1") Name 
             th(colspan="10" class ="addBtn") + #{toggle}  
-        each booking in bookingsArray ? bookingsArray : ['No Students']
+        each booking in bookingPatterns ? bookingPatterns : ['No Students']
             tr
                 td(class = "col1") #{booking.Name}
                 td() #{booking.Mm} 
