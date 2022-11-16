@@ -17,8 +17,8 @@ module.exports = (connDB, io) => {
         var bookingPatternsTeachers;
         var bookingPatterns;
 
-        var roomRatios;
         var weightedSumStudents;
+        var roomRatios;
         var sumTeachers;
         var teachRatios; 
 
@@ -31,7 +31,7 @@ module.exports = (connDB, io) => {
         getBookingPatternStudent(connDB, roomNo, date, function(result){
             bookingPatternsStudents = result;
 
-            getBookingPatternTeacher(connDB, toggle, roomNo, date, function(result){
+            getBookingPatternTeacher(connDB, roomNo, date, function(result){
                 bookingPatternsTeachers = result;
                 
                 sumTeachers         = getTeachSum(bookingPatternsTeachers, roomSize, date);
@@ -39,6 +39,16 @@ module.exports = (connDB, io) => {
             
                 roomRatios          = getRoomRatio(bookingPatternsStudents, roomSize, date);
                 teachRatios         = getTeachRatios(sumTeachers, weightedSumStudents) 
+                
+                /*
+                console.log("bp TEACHERS: ",bookingPatternsTeachers)
+
+                console.log("SUM TEACHER: "+sumTeachers)
+                console.log("SUM STUDENT: "+weightedSumStudents)
+                
+                console.log("ROOM RATIOS: "+roomRatios)
+                console.log("TEACH RATIO: "+teachRatios)
+                */
 
                 switch(toggle){
                     case "Teacher":
@@ -48,8 +58,8 @@ module.exports = (connDB, io) => {
                         bookingPatterns = bookingPatternsStudents;
                         break;
                 }
-                renderBookingPatterns(res, toggle, roomNo, bookingPatterns, roomRatios , teachRatios)
-                
+                renderBookingPatterns(res, date, toggle, roomNo, bookingPatterns, roomRatios , teachRatios)
+                 
             })
         });
        
@@ -68,9 +78,9 @@ module.exports = (connDB, io) => {
 
 /** ---------- Helper Functions ---------- */
 
-function renderBookingPatterns(res, toggle, roomNo, bookingPatterns, roomRatios, teachRatios){
+function renderBookingPatterns(res, date, toggle, roomNo, bookingPatterns, roomRatios, teachRatios){
 
-    res.render("bookingPatterns",{toggle: toggle, roomNo: roomNo, bookingPatterns: bookingPatterns, roomRatios: roomRatios, teachRatios: teachRatios} );
+    res.render("bookingPatterns",{toggle: toggle, date: date, roomNo: roomNo, bookingPatterns: bookingPatterns, roomRatios: roomRatios, teachRatios: teachRatios} );
 }
 
 
@@ -233,34 +243,34 @@ function getTeachSum(results){
 
     for( i in results){
         if(results[i].Mm){ 
-            teachSum[i] += 1;
+            teachSum[0] += 1;
         }
         if(results[i].Ma){  
-            teachSum[i] += 1;
+            teachSum[1] += 1;
         }
         if(results[i].Tm){  
-            teachSum[i] += 1;
+            teachSum[2] += 1;
         }
         if(results[i].Ta){  
-            teachSum[i] += 1;
+            teachSum[3] += 1;
         }
         if(results[i].Wm){  
-            teachSum[i] += 1;
+            teachSum[4] += 1;
         }
         if(results[i].Wa){  
-            teachSum[i] += 1;
+            teachSum[5] += 1;
         }
         if(results[i].Thm){ 
-            teachSum[i] += 1;
+            teachSum[6] += 1;
         }
         if(results[i].Tha){  
-            teachSum[i] += 1;
+            teachSum[7] += 1;
         }
         if(results[i].Fm){  
-            teachSum[i] += 1;
+            teachSum[8] += 1;
         }
         if(results[i].Fa){  
-            teachSum[i] += 1;
+            teachSum[9] += 1;
         }
     }
 
@@ -293,7 +303,7 @@ function getTeachRatios(sumTeachers, weightedSumStudents) {
     Retunrs the booking patterns of the students for filling into the 
 
  */
-function getBookingPatternStudent(connDB, roomNo, date, callback){
+async function getBookingPatternStudent(connDB, roomNo, date, callback){
 
     var upperDateCol;
     var lowerDateCol;
@@ -339,20 +349,31 @@ function getBookingPatternStudent(connDB, roomNo, date, callback){
     }
 
 
-function getBookingPatternTeacher(connDB, toggle, roomNo, date, callback){
-
-    connDB.query(
-        "SELECT Mm, Ma, Tm, Ta, Wm, Wa, Thm, Tha, Fm, Fa, \
-        endDate, Name \
-        FROM BookingPattern_Teachers, Teacher \
-        WHERE BookingPattern_Teachers.idTeacher = Teacher.idTeacher \
-        AND BookingPattern_Teachers.idRoom = "+ roomNo +"\
-        GROUP BY Teacher.idTeacher",
+async function getBookingPatternTeacher(connDB, roomNo, date, callback){
+    connDB.query("\
+        SELECT *\
+        FROM (\
+            SELECT idTeacher, \
+            MIN(endDate) AS 'endDate' \
+            FROM BookingPattern_Teachers\
+            WHERE DATE(endDate) > '"+date+"'\
+            GROUP BY idTeacher\
+            )tmp \
+        JOIN BookingPattern_Teachers \
+        ON BookingPattern_Teachers.idTeacher = tmp.idTeacher\
+        JOIN Teacher \
+        ON tmp.idTeacher = Teacher.idTeacher\
+        WHERE tmp.endDate = BookingPattern_Teachers.endDate\
+        ORDER BY Name ASC\
+        ",
         (error, results, fields) => {
             if(error) {
                 console.log("error "+ error + "\n")
                 //throw error;
             }
+            console.log(date)
+
+            console.log(results)
             callback(results)
         }
     );
@@ -371,4 +392,40 @@ function getRoomSize(connDB, roomNo, callback){
             return callback(results[0].Size)
         }
     )   
+}
+
+function getRatiosPeriod(connDB, roomNo, roomSize, period){
+    ratios = new Array(period)
+
+    var dateJS = new Date()
+
+    for(i=0; i<period; i++){
+    
+        dateJS.setDate(dateJS.getDate() + 365)
+        var date = dateJS.toJSON().toString().slice(0, 10);
+        console.log("BEFORE "+date)
+
+        // get the booking pattern for the students for that week and room
+        getBookingPatternStudent(connDB,i, roomNo, date, function(result){
+            console.log("AFTER "+i)
+
+            bookingPatternsStudents = result;
+
+            getBookingPatternTeacher(connDB, roomNo, date, function(result){
+                bookingPatternsTeachers = result;
+                /*
+                sumTeachers         = getTeachSum(bookingPatternsTeachers, roomSize, date);
+                weightedSumStudents = getWeightedSum(bookingPatternsStudents, roomSize, date);
+            
+                roomRatios          = getRoomRatio(bookingPatternsStudents, roomSize, date);
+                teachRatios         = getTeachRatios(sumTeachers, weightedSumStudents) 
+
+                datum = {date: date, roomRatios: roomRatios , teachRatios: teachRatios}
+                ratios[i] = datum;*/
+            })
+        });
+
+    }
+    console.log(ratios)
+
 }

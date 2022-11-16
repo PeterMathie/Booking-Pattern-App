@@ -1,26 +1,56 @@
+:root {
+    /*
+    --colour1: #e0e1dd;
+    --colour2: #778da9;
+    --colour3: #415a77;
+    --colour4: #1b263b;
+    --colour5: #0d1b2a;
+    --colour6: #04080d;
+    */
+    --colour1: #55808B;
+    --colour2: #2d2e2f;
+    --colour3: #303638;
+    --colour4: #101111;
+    --colour5: #151718;
+
+    --contrast: #e195ed;
+    --dark: #232323;
+    --light: #e6e6e6;
+
+}
+
 body{
     width: 100vw;
     margin: 0;
+    background-color: var(--colour3);
+    color: var(--light); 
+
+}
+
+div#root {
+    background-color: var(--dark);
+
 }
 
 .navBar{
     overflow: hidden;
-    background-color: #4d5a5a;
+    background-color: var(--colour5);
     display: inline-flex;
     width: 100%;
+    height: 7vh;
     align-items: center;
-    
+    color: var(--light);
 
 }
 
 .navBtn{
     padding: 14px 16px;
     text-decoration: none;
-    color: whitesmoke; 
-    font-family: "Verdana"; 
+    font-family: "Verdana";
+    color: var(--light);
+ 
 }
 
 .navBtn:hover{
-    background-color: #252923ae;
-
+    background-color: var(--colour4);
 }

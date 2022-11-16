@@ -1,47 +1,68 @@
-.addBtn{
-  background-color: #5bb069;
-  justify-content: center;
-  
+button{
+  padding: 0;
+  width: 100%;
+  height: 3vh;
+  border: none;
+  background:  var(--colour2);
+  color: var(--light);
+  position: absolute;
+  top: 0;
+  left: 0;
 }
-.addBtn:hover{
-  background-color: #252923ae;
+.addBtn{
+ height: 5vh; 
+}
+
+button:hover{
+  background-color: var(--colour4);
 }
 
 .nameHeading{
-  background-color: rgb(84, 110, 84);
-
+  background-color: var(--colour5);
   display: inline-block;
 }
 
-table#formTable{
-  width: 40vw;
 
-}
-
-table#toggleSelect{
-  width: 50vw;
-
-}
-
-
-table#formTable1{
-  width: 20vw;
-
-}
-
-table#formTable2{
-  width: 20vw;
-
-}
-.submitbtn{
+input[type="text"] {
+  padding: 0px 0px;
   width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-  background-color: rgb(84, 110, 84);
+  height: 3vh;
+  border-width: 0px;
+}
+div#cell{
+  position: relative;
+  height: 100%
+}
 
 
+input[type="checkbox"]  {
+  display: none;
 }
-.submitCell{
-  background-color: rgb(84, 110, 84)
+
+input[type="checkbox"]:checked + div{
+  background-color:   var(--colour4);
+
 }
+
+input[type="checkbox"]:checked + div {
+  height: 1.5vh;
+  width: 1.5vh;
+  background-color: var(--contrast);
+  border-radius: 100%;
+  z-index: 99;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+}
+
+td > label > div > div {
+  width: 100%;
+  height: 3vh;
+  position: absolute;
+}
+
+
+
+

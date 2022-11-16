@@ -1,93 +1,286 @@
 extends layout
 
 block layout-content
-    form#toggleButtons
-        table#formTable
-            tr#roomSelect
-                td(class = "roomCell1") Room 1
-                    input(type = "radio" id = "rm1" value="1" name = "roomNo" checked=roomNo=="1" )
-                td(colspan="2" class = "roomCell2") Room 2
-                    input(type = "radio" id = "rm2" value="2" name = "roomNo" checked=roomNo=="2" )
-                td(class = "roomCell3") Room 3
-                    input(type = "radio" id = "rm3" value="3" name = "roomNo" checked=roomNo=="3" )
-            tr#toggleSelect
-                td(colspan="2" ) Student
-                    input(type = "radio" value="Student" name = "toggle" checked=toggle=="Student")
-                td(colspan="2" ) Teacher 
-                    input(type = "radio" value="Teacher" name = "toggle" checked=toggle=="Teacher")
-            tr
-                td(colspan="4" ) Date 
-                    input(type="date" value=dateText name = "date" required pattern="\d{4}-\d{2}-\d{2}" )
-            tr
-                td(colspan="4" class = "submitCell" ) 
-                    button( class = "submitbtn") Submit
-    table
-        thead
-            tr 
-                th(class = "col1") Room #{roomNo}
-                th() Mm
-                th() Ma 
-                th() Tm
-                th() Ta
-                th() Wm 
-                th() Wa 
-                th() Thm
-                th() Tha
-                th() Fm
-                th() Fa
-        tr
-            td(class = "col1") #{toggle} Teacher Ratio
-                br
-                sub 
-                    sup (Must be greater than 1)
-            td() #{teachRatios[0]} 
-            td() #{teachRatios[1]} 
-            td() #{teachRatios[2]} 
-            td() #{teachRatios[3]} 
-            td() #{teachRatios[4]} 
-            td() #{teachRatios[5]} 
-            td() #{teachRatios[6]} 
-            td() #{teachRatios[7]} 
-            td() #{teachRatios[8]} 
-            td() #{teachRatios[9]} 
-        tr
-            td(class = "col1") Ramaing Area
-            td() #{roomRatios[0]}m
-                sup 2
-            td() #{roomRatios[1]}m
-                sup 2
-            td() #{roomRatios[2]}m
-                sup 2
-            td() #{roomRatios[3]}m
-                sup 2
-            td() #{roomRatios[4]}m
-                sup 2
-            td() #{roomRatios[5]}m
-                sup 2
-            td() #{roomRatios[6]}m
-                sup 2
-            td() #{roomRatios[7]}m
-                sup 2
-            td() #{roomRatios[8]}m
-                sup 2
-            td() #{roomRatios[9]}m
-                sup 2
-        tr
-            th(class = "col1") Name 
-            th(colspan="10" class ="addBtn") + #{toggle}  
-        each booking in bookingPatterns ? bookingPatterns : ['No Students']
-            tr
-                td(class = "col1") #{booking.Name}
-                td() #{booking.Mm} 
-                td() #{booking.Ma} 
-                td() #{booking.Tm}
-                td() #{booking.Ta}
-                td() #{booking.Wm} 
-                td() #{booking.Wa} 
-                td() #{booking.Thm}
-                td() #{booking.Tha} 
-                td() #{booking.Fm} 
-                td() #{booking.Fa}
+        form#formTable
+            div#toggleButtons
+                table#formTable
+                    tr#roomSelect
+                        td(class = "roomCell1")
+                            label() 
+                                div Room 1
+                                    input(type = "radio" id = "rm1" value=1 name = "roomNo" checked=roomNo==1 )
+                        td(colspan="2" class = "roomCell2")
+                            label() 
+                                div Room 2
+                                    input(type = "radio" id = "rm2" value=2 name = "roomNo" checked=roomNo==1 )
+                        td(class = "roomCell3") 
+                            label() 
+                                div Room 3
+                                    input(type = "radio" id = "rm3" value=3 name = "roomNo" checked=roomNo==3 )
+                    tr#toggleSelect
+                        td(colspan="2" )
+                            label() 
+                                div Student
+                                    input(type = "radio" value="Student" name = "toggle" checked=toggle=="Student")
+                        td(colspan="2" )
+                            label() 
+                                div Teacher 
+                                    input(type = "radio" value="Teacher" name = "toggle" checked=toggle=="Teacher")
+                    tr
+                        td(colspan="4" )
+                            label() 
+                                div Date 
+                                    input(type="date" value=date name = "date" required pattern="\d{4}-\d{2}-\d{2}" )
+                    tr
+                        td(colspan="4" )#btnCell
+                            button() Submit
+            div#bookingPatternsPage
+
+                div#bookingPatterns
+                    table
+                        thead
+                            th(class = "col1") Room #{roomNo}
+                            th() Mm
+                            th() Ma 
+                            th() Tm
+                            th() Ta
+                            th() Wm 
+                            th() Wa 
+                            th() Thm
+                            th() Tha
+                            th() Fm
+                            th() Fa
+                            th(class = "finCol") go up
+
+                        tr
+                            td(class = "col1") Teacher Ratio 
+                            each ratio in teachRatios
+                                td() #{ratio}
+                            td(class = "finCol")
+
+                        tr#remainingArea
+                            td(class = "col1") Remaining Area
+                            each ratio in roomRatios
+                                td() #{ratio} m
+                                    sup 2
+                            td(class = "finCol")
+                div#scrollable
+                    table#bookPatterntable 
+                        tr#sticky 
+                            td(class = "col1")#nameHeading Name 
+                            td(colspan="11")#btnCell
+                                button(type="button" onclick=`makeVisible()` required pattern="[A-Za-z]" class ="btn") + #{toggle} 
+                        tr#newStudentRow  
+                            td(class = "col1")
+                                label()#textBoxContainer
+                                    input(type="text" name = "name")
+                            td
+                                label() 
+                                    div()#cell                                     
+                                        input(type="checkbox" value = "1" name = "Mm")
+                                        div()
+                                        a()
+                            td 
+                                label() 
+                                    div()#cell
+                                        input(type="checkbox" value = "1" name = "Ma")
+                                        div()
+                                        a()
+                            td 
+                                label() 
+                                    div()#cell
+                                        input(type="checkbox" value = "1" name = "Tm")
+                                        div()
+                                        a()
+                            td 
+                                label() 
+                                    div()#cell
+                                        input(type="checkbox" value = "1" name = "Ta")
+                                        div()
+                                        a()
+                            td 
+                                label() 
+                                    div()#cell
+                                        input(type="checkbox" value = "1" name = "Wm")
+                                        div()
+                                        a()
+                            td 
+                                label() 
+                                    div()#cell
+                                        input(type="checkbox" value = "1" name = "Wa")
+                                        div()
+                                        a()
+                            td 
+                                label() 
+                                    div()#cell
+                                        input(type="checkbox" value = "1" name = "Th")
+                                        div()
+                                        a()
+                            td 
+                                label() 
+                                    div()#cell
+                                        input(type="checkbox" value = "1" name = "Th")
+                                        div()
+                                        a()
+                            td 
+                                label() 
+                                    div()#cell
+                                        input(type="checkbox" value = "1" name = "Fm")
+                                        div()
+                                        a()
+                            td 
+                                label() 
+                                    div()#cell
+                                        input(type="checkbox" value = "1" name = "Fa")
+                                        div()
+                                        a()
+                            td(class = "finCol")
+                                button(onclick=`submitBoth()`) +
 
 
-    link(rel='stylesheet', href='/stylesheets/bookingPatternStyle.css')
+
+                        each booking in bookingPatterns ? bookingPatterns : ['No Students']
+                            tr#dataCells
+                                td(class = "col1") #{booking.Name}
+                                td() 
+                                    - var isChecked=false
+                                    if toggle == "Student"
+                                        if booking.Mm == roomNo
+                                            - var isChecked = true
+                                    if toggle == "Teacher"
+                                        if booking.Mm == roomNo
+                                            - var isChecked = true
+                                    label() 
+                                        div#cell
+                                            input(type="checkbox" checked= isChecked ? true : false  ) 
+                                            div()
+                                            a()
+                                td() 
+                                    - var isChecked=false
+                                    if toggle == "Student"
+                                        if booking.Ma == roomNo
+                                            - var isChecked = true
+                                    if toggle == "Teacher"
+                                        if booking.Ma == roomNo
+                                            - var isChecked = true
+                                    label() 
+                                        div#cell
+                                            input(type="checkbox" checked= isChecked ? true : false  ) 
+                                            div()
+                                            a()
+                                td() 
+                                    - var isChecked=false
+                                    if toggle == "Student"
+                                        if booking.Tm == roomNo
+                                            - var isChecked = true
+                                    if toggle == "Teacher"
+                                        if booking.Tm == roomNo
+                                            - var isChecked = true
+                                    label() 
+                                        div#cell
+                                            input(type="checkbox" checked= isChecked ? true : false  ) 
+                                            div()
+                                            a()
+                                td() 
+                                    - var isChecked=false
+                                    if toggle == "Student"
+                                        if booking.Ta == roomNo
+                                            - var isChecked = true
+                                    if toggle == "Teacher"
+                                        if booking.Ta == roomNo
+                                            - var isChecked = true
+                                    label() 
+                                        div#cell
+                                            input(type="checkbox" checked= isChecked ? true : false  ) 
+                                            div()
+                                            a()
+                                td() 
+                                    - var isChecked=false
+                                    if toggle == "Student"
+                                        if booking.Wm == roomNo
+                                            - var isChecked = true
+                                    if toggle == "Teacher"
+                                        if booking.Wm == roomNo
+                                            - var isChecked = true
+                                    label() 
+                                        div#cell
+                                            input(type="checkbox" checked= isChecked ? true : false  ) 
+                                            div()
+                                            a()
+                                td() 
+                                    - var isChecked=false
+                                    if toggle == "Student"
+                                        if booking.Wa == roomNo
+                                            - var isChecked = true
+                                    if toggle == "Teacher"
+                                        if booking.Wa == roomNo
+                                            - var isChecked = true
+                                    label() 
+                                        div#cell
+                                            input(type="checkbox" checked= isChecked ? true : false  ) 
+                                            div()
+                                            a()
+                                td() 
+                                    - var isChecked=false
+                                    if toggle == "Student"
+                                        if booking.Thm == roomNo
+                                            - var isChecked = true
+                                    if toggle == "Teacher"
+                                        if booking.Thm == roomNo
+                                            - var isChecked = true
+                                    label() 
+                                        div#cell
+                                            input(type="checkbox" checked= isChecked ? true : false  ) 
+                                            div()
+                                            a()
+                                td() 
+                                    - var isChecked=false
+                                    if toggle == "Student"
+                                        if booking.Tha == roomNo
+                                            - var isChecked = true
+                                    if toggle == "Teacher"
+                                        if booking.Tha == roomNo
+                                            - var isChecked = true
+                                    label() 
+                                        div#cell
+                                            input(type="checkbox" checked= isChecked ? true : false  ) 
+                                            div()
+                                            a()
+                                td() 
+                                    - var isChecked=false
+                                    if toggle == "Student"
+                                        if booking.Fm == roomNo
+                                            - var isChecked = true
+                                    if toggle == "Teacher"
+                                        if booking.Fm == roomNo
+                                            - var isChecked = true
+                                    label() 
+                                        div#cell
+                                            input(type="checkbox" checked= isChecked ? true : false  ) 
+                                            div()
+                                            a()
+                                td() 
+                                    - var isChecked=false
+                                    if toggle == "Student"
+                                        if booking.Fa == roomNo
+                                            - var isChecked = true
+                                    if toggle == "Teacher"
+                                        if booking.Fa == roomNo
+                                            - var isChecked = true
+                                    label() 
+                                        div#cell
+                                            input(type="checkbox" checked= isChecked ? true : false  ) 
+                                            div()
+                                            a()
+                                td(class = "finCol")
+                                    button(class = "btn") /\ 
+        link(rel='stylesheet', href='/stylesheets/bookingPatternStyle.css')
+        script.
+                    function makeVisible() {
+                    document.getElementById("newStudentRow").style.display = "table-row";
+                    // var table = document.getElementById('bookPatterntable').innerHTML("<form></form><tr><td class="col1"><label><div><input type="text" value="" name="name"></div></label></td><td><label><div><input type="checkbox" value="" name="Mm"></div></label></td><td><label><div><input type="checkbox" value="" name="Ma"></div></label></td><td><label><div><input type="checkbox" value="" name="Tm"></div></label></td><td><label><div><input type="checkbox" value="" name="Ta"></div></label></td><td><label><div><input type="checkbox" value="" name="Wm"></div></label></td><td><label><div><input type="checkbox" value="" name="Thm"></div></label></td><td><label><div><input type="checkbox" value="" name="Tha"></div></label></td><td><label><div><input type="checkbox" value="" name="Fm"></div></label></td><td><label><div><input type="checkbox" value="" name="Fa"></div></label></td><td class="submitCell"><button class="submitbtn">Submit</button></td></tr>   ");
+                    } 
+        script.
+                    function submitBoth(){
+                        document.getElementById("formTable").submit();
+                    }

@@ -1,31 +1,120 @@
+
 table{
     display: table;
-    width: 100vw;  
+    width: 100%;  
     text-align: center;
-    color: #232323; 
     font-family: "Verdana"; 
-    border-spacing: 0.2vw;
+    border-spacing: 0vh 0vh;
+    text-size-adjust: none;
+    border-collapse: collapse;
+}
+
+table{
+    color: var(--light);
+
+}
+
+div#toggleButtons{
+    background:var(--dark);
+}
+
+div#bookingPatternsPage{
+    height: 93vh;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    background: var(--dark);
+    color: var(--light);
+
+}
+div#btnCell{
+    position: relative;
+}
+td#btnCell{
+    position: relative;
+}
+
+div#toggleButtons{
+    padding: 2vh 2vw;
+}
+
+div#bookingPatterns{
+    max-height: 25vh;
+    margin-bottom: 0vh;
+    margin: 0;
+}
+
+div#scrollable{
+    max-height: 60vh;
+    overflow: auto;
+    margin-top: 0;
+    z-index: 999;
+    color: var(--light);
+    
+}
+tr#dataCells td{
+    border-right: solid 1px var(--colour5); 
+}
+tr#sticky{
+    top: 0px;
+    color: var(--light);
+    background: var(--colour3);
+    position: sticky;
+    border-top: 0vh;
+    z-index: 999;
+}
+tr#roomSelect td{
+    width: 33.33%;
 }
 
 th{
-    background-color: rgb(84, 110, 84);
-    color: #121212;
+    background-color:var(--colour3);
     height: 5vh;
-    width: 8vw;
+    width: 8%;
+    color: var(--light);
 }
-
-tr{
-    height: 2vh;
-    width: 8vw;
-}
-
 td{
-    background-color: rgb(182, 224, 199);
+    opacity: 70%;
+    width: 8%;
+    height: 3vh;
+    padding: 0;
+}
+tr#toggleSelect td{
+    width: 50%;
+}
+.col1{
+    width: 16%;
+    padding: 0;
+}
+.finCol{
+    position: relative;
+    width: 4%;
 }
 td:hover {
-    background-color: rgb(117, 230, 162);
+    background-color: var(--colour3);
+}
+
+button#addBtn{
+    font-size: 20px;
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+label#textboxContainer{
+    display: flex;
+}
+
+tr#newStudentRow{
+    display: none;
+}
+tr:nth-child(even){
+    background:var(--colour5);
+}
+
+tr:nth-child(odd){
+    background:var(--colour4);
 }
 
 .col1{
-    width:20vw
+    opacity: 100%;
 }

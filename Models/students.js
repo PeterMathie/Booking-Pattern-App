@@ -8,8 +8,6 @@ module.exports = (connDB, io) => {
 
     /* GET home page. */
     router.get("/", (req, res, next) => {
-        console.log(req)
-
         studentController.students(req, res, next);
     });
 
