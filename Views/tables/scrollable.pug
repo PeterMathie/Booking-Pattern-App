@@ -9,8 +9,9 @@ block scrollable
             tr#newStudentRow  
                 td(class = "col1")
                     label()#textBoxContainer
-                        input(type="text" name = "name")
-
+                        input(type="text" value = "" name = "Name")#newNameInput
+                        block drop-down-student-names
+                            include ../include/drop-down-student-names
                 each time in [Mm,Ma,Tm,Ta,Wm,Wa,Thm,Tha,Fm,Fa]
                     td
                         label() 

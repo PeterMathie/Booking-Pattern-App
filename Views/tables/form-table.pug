@@ -9,7 +9,7 @@ block form-table
                 td(colspan="2")#roomSelect
                     label() 
                         div Room 2
-                            input(type = "radio" id = "rm2" value=2 name = "roomNo" checked=roomNo==1 )
+                            input(type = "radio" id = "rm2" value=2 name = "roomNo" checked=roomNo==2 )
                 td(colspan="1")#roomSelect
                     label() 
                         div Room 3
@@ -30,4 +30,4 @@ block form-table
                             input(type="date" value=date name = "date" required pattern="\d{4}-\d{2}-\d{2}" )
             tr
                 td(colspan="6" )#btnCell
-                    button() Submit
+                    button()#roundBtn Submit

@@ -1,7 +1,7 @@
 block booking-pattern-data        
     each booking in bookingPatterns ? bookingPatterns : ['No Students']
         tr#dataCells
-            td(class = "col1") #{booking.Name}
+            td(class = "col1") #{booking.Name}!{"&#32;"} 
             td() 
                 - var isChecked=false
                 if toggle == "Student"
@@ -12,7 +12,7 @@ block booking-pattern-data
                         - var isChecked = true
                 label() 
                     div#cell
-                        input(type="checkbox" checked= isChecked ? true : false  ) 
+                        input(type="checkbox" checked= isChecked ? true : false name = booking.Name+"Mm"  ) 
                         div()
                         a() 
             td() 
@@ -25,7 +25,7 @@ block booking-pattern-data
                         - var isChecked = true
                 label() 
                     div#cell
-                        input(type="checkbox" checked= isChecked ? true : false  ) 
+                        input(type="checkbox" checked= isChecked ? true : false name = booking.Name+"Ma" ) 
                         div()
                         a() 
             td() 
@@ -38,7 +38,7 @@ block booking-pattern-data
                         - var isChecked = true
                 label() 
                     div#cell
-                        input(type="checkbox" checked= isChecked ? true : false  ) 
+                        input(type="checkbox" checked= isChecked ? true : false name = booking.Name+"Tm"  ) 
                         div()
                         a() 
             td() 
@@ -51,7 +51,7 @@ block booking-pattern-data
                         - var isChecked = true
                 label() 
                     div#cell
-                        input(type="checkbox" checked= isChecked ? true : false  ) 
+                        input(type="checkbox" checked= isChecked ? true : false name = booking.Name+"Ta"  ) 
                         div()
                         a() 
             td() 
@@ -64,7 +64,7 @@ block booking-pattern-data
                         - var isChecked = true
                 label() 
                     div#cell
-                        input(type="checkbox" checked= isChecked ? true : false  ) 
+                        input(type="checkbox" checked= isChecked ? true : false name = booking.Name+"Wm"  ) 
                         div()
                         a() 
             td() 
@@ -77,7 +77,7 @@ block booking-pattern-data
                         - var isChecked = true
                 label() 
                     div#cell
-                        input(type="checkbox" checked= isChecked ? true : false  ) 
+                        input(type="checkbox" checked= isChecked ? true : false name = booking.Name+"Wa"  ) 
                         div()
                         a() 
             td() 
@@ -90,7 +90,20 @@ block booking-pattern-data
                         - var isChecked = true
                 label() 
                     div#cell
-                        input(type="checkbox" checked= isChecked ? true : false  ) 
+                        input(type="checkbox" checked= isChecked ? true : false name = booking.Name+"Thm"  ) 
+                        div()
+                        a() 
+            td() 
+                - var isChecked=false
+                if toggle == "Student"
+                    if booking.Tha
+                        - var isChecked = true
+                if toggle == "Teacher"
+                    if booking.Tha == roomNo
+                        - var isChecked = true
+                label() 
+                    div#cell
+                        input(type="checkbox" checked= isChecked ? true : false name = booking.Name+"Tha"  ) 
                         div()
                         a() 
             td() 
@@ -103,7 +116,7 @@ block booking-pattern-data
                         - var isChecked = true
                 label() 
                     div#cell
-                        input(type="checkbox" checked= isChecked ? true : false  ) 
+                        input(type="checkbox" checked= isChecked ? true : false name = booking.Name+"Fm"  ) 
                         div()
                         a() 
             td() 
@@ -116,7 +129,7 @@ block booking-pattern-data
                         - var isChecked = true
                 label() 
                     div#cell
-                        input(type="checkbox" checked= isChecked ? true : false  ) 
+                        input(type="checkbox" checked= isChecked ? true : false name = booking.Name+"Fa"  ) 
                         div()
                         a() 
         

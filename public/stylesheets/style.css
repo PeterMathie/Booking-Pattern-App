@@ -9,17 +9,22 @@
     --dark: #232323;
     --light: #e6e6e6;
 
+
+    --cellHeightSmall: 3vh;
+    --cellHeightLarge: 6vh;
+    --headingHeight: 6vh;
+
 }
 
 body{
     width: 100vw;
     margin: 0;
     color: var(--light); 
-
 }
 
 div#root {
     background: conic-gradient(at 50% 25%, var(--colour1), var(--colour1), var(--contrast), var(--colour1));
+    height: 93vh;
 
 }
 

@@ -39,28 +39,31 @@ module.exports = (connDB, io) => {
             
                 roomRatios          = getRoomRatio(bookingPatternsStudents, roomSize, date);
                 teachRatios         = getTeachRatios(sumTeachers, weightedSumStudents) 
-                
-                /*
-                console.log("bp TEACHERS: ",bookingPatternsTeachers)
 
-                console.log("SUM TEACHER: "+sumTeachers)
-                console.log("SUM STUDENT: "+weightedSumStudents)
-                
-                console.log("ROOM RATIOS: "+roomRatios)
-                console.log("TEACH RATIO: "+teachRatios)
-                */
+                getDropDownNames(connDB, roomNo, date, toggle, function(result){
+                    nameArray = result
+                    console.log(toggle  )
+                    /*
+                    console.log("bp TEACHERS: ",bookingPatternsTeachers)
 
-                switch(toggle){
-                    case "Teacher":
-                        bookingPatterns = bookingPatternsTeachers;
-                        break;
-                    case "Student":
-                        bookingPatterns = bookingPatternsStudents;
-                        break;
-                }
-                renderBookingPatterns(res, date, toggle, roomNo, bookingPatterns, roomRatios , teachRatios)
-                 
-            })
+                    console.log("SUM TEACHER: "+sumTeachers)
+                    console.log("SUM STUDENT: "+weightedSumStudents)
+                    
+                    console.log("ROOM RATIOS: "+roomRatios)
+                    console.log("TEACH RATIO: "+teachRatios)
+                    */
+
+                    switch(toggle){
+                        case "Teacher":
+                            bookingPatterns = bookingPatternsTeachers;
+                            break;
+                        case "Student":
+                            bookingPatterns = bookingPatternsStudents;
+                            break;
+                    }
+                    renderBookingPatterns(res, date, toggle, roomNo, bookingPatterns, roomRatios , teachRatios, nameArray)
+                });
+            }); 
         });
        
 
@@ -80,7 +83,7 @@ module.exports = (connDB, io) => {
 
 function renderBookingPatterns(res, date, toggle, roomNo, bookingPatterns, roomRatios, teachRatios){
 
-    res.render("bookingPatterns",{toggle: toggle, date: date, roomNo: roomNo, bookingPatterns: bookingPatterns, roomRatios: roomRatios, teachRatios: teachRatios} );
+    res.render("bookingPatterns",{toggle: toggle, date: date, roomNo: roomNo, bookingPatterns: bookingPatterns, roomRatios: roomRatios, teachRatios: teachRatios, nameArray: nameArray} );
 }
 
 
@@ -380,8 +383,6 @@ async function getBookingPatternTeacher(connDB, roomNo, date, callback){
 
 }
 
-
-
 function getRoomSize(connDB, roomNo, callback){
     connDB.query("SELECT Size FROM Room WHERE idRoom = "+roomNo,
         (error, results, fields) => {
@@ -392,6 +393,68 @@ function getRoomSize(connDB, roomNo, callback){
             return callback(results[0].Size)
         }
     )   
+}
+
+
+function getDropDownNames(connDB, roomNo, date, toggle, callback){
+
+    if (toggle == "Student"){
+        console.log("students")
+        var upperDateCol;
+        var lowerDateCol;
+
+        if(roomNo == 3){
+            upperDateCol = "roomThreeEnd"
+            lowerDateCol = "roomTwoEnd"
+            //roomThreeEnd > date > roomTwoEnd 
+        }
+        if(roomNo == 2){
+            upperDateCol = "roomTwoEnd"
+            lowerDateCol = "roomOneEnd"
+            //roomTwoEnd > date > roomOneEnd
+        }
+        if(roomNo == 1){
+            upperDateCol = "roomOneEnd"
+            lowerDateCol = "startDate"
+            //roomOneEnd > date > startDate
+        }
+        if(roomNo != 1 && roomNo != 2 && roomNo != 3){
+            console.log("Invalid room!")
+        }
+
+        connDB.query(
+            "SELECT \
+                Name, "+ lowerDateCol +", "+ upperDateCol +" \
+                FROM Student \
+                WHERE Student."+upperDateCol+" <  '"+ date +"'\
+                OR Student."+lowerDateCol+" >  '"+ date +"'\
+                GROUP BY Student.idStudent",
+            (error, results, fields) => {
+                if(error) {
+                    console.log("error "+ error + "\n")
+                    //throw error;
+                } 
+            callback(results)
+            }
+        );
+    }
+    else if (toggle == "Teacher"){
+        console.log("teachers")
+
+        connDB.query(
+            "SELECT \
+                Name \
+                FROM Teacher \
+                GROUP BY Teacher.idTeacher",
+            (error, results, fields) => {
+                if(error) {
+                    console.log("error "+ error + "\n")
+                    //throw error;
+                }
+            callback(results)
+            }
+        );
+    }
 }
 
 function getRatiosPeriod(connDB, roomNo, roomSize, period){
