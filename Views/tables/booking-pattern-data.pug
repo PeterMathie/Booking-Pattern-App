@@ -1,0 +1,127 @@
+block booking-pattern-data        
+    each booking in bookingPatterns ? bookingPatterns : ['No Students']
+        tr#dataCells
+            td(class = "col1") #{booking.Name}
+            td() 
+                - var isChecked=false
+                if toggle == "Student"
+                    if booking.Mm
+                        - var isChecked = true
+                if toggle == "Teacher"
+                    if booking.Mm == roomNo
+                        - var isChecked = true
+                label() 
+                    div#cell
+                        input(type="checkbox" checked= isChecked ? true : false  ) 
+                        div()
+                        a() 
+            td() 
+                - var isChecked=false
+                if toggle == "Student"
+                    if booking.Ma
+                        - var isChecked = true
+                if toggle == "Teacher"
+                    if booking.Ma == roomNo
+                        - var isChecked = true
+                label() 
+                    div#cell
+                        input(type="checkbox" checked= isChecked ? true : false  ) 
+                        div()
+                        a() 
+            td() 
+                - var isChecked=false
+                if toggle == "Student"
+                    if booking.Tm
+                        - var isChecked = true
+                if toggle == "Teacher"
+                    if booking.Tm == roomNo
+                        - var isChecked = true
+                label() 
+                    div#cell
+                        input(type="checkbox" checked= isChecked ? true : false  ) 
+                        div()
+                        a() 
+            td() 
+                - var isChecked=false
+                if toggle == "Student"
+                    if booking.Ta
+                        - var isChecked = true
+                if toggle == "Teacher"
+                    if booking.Ta == roomNo
+                        - var isChecked = true
+                label() 
+                    div#cell
+                        input(type="checkbox" checked= isChecked ? true : false  ) 
+                        div()
+                        a() 
+            td() 
+                - var isChecked=false
+                if toggle == "Student"
+                    if booking.Wm
+                        - var isChecked = true
+                if toggle == "Teacher"
+                    if booking.Wm == roomNo
+                        - var isChecked = true
+                label() 
+                    div#cell
+                        input(type="checkbox" checked= isChecked ? true : false  ) 
+                        div()
+                        a() 
+            td() 
+                - var isChecked=false
+                if toggle == "Student"
+                    if booking.Wa
+                        - var isChecked = true
+                if toggle == "Teacher"
+                    if booking.Wa == roomNo
+                        - var isChecked = true
+                label() 
+                    div#cell
+                        input(type="checkbox" checked= isChecked ? true : false  ) 
+                        div()
+                        a() 
+            td() 
+                - var isChecked=false
+                if toggle == "Student"
+                    if booking.Thm
+                        - var isChecked = true
+                if toggle == "Teacher"
+                    if booking.Thm == roomNo
+                        - var isChecked = true
+                label() 
+                    div#cell
+                        input(type="checkbox" checked= isChecked ? true : false  ) 
+                        div()
+                        a() 
+            td() 
+                - var isChecked=false
+                if toggle == "Student"
+                    if booking.Fm
+                        - var isChecked = true
+                if toggle == "Teacher"
+                    if booking.Fm == roomNo
+                        - var isChecked = true
+                label() 
+                    div#cell
+                        input(type="checkbox" checked= isChecked ? true : false  ) 
+                        div()
+                        a() 
+            td() 
+                - var isChecked=false
+                if toggle == "Student"
+                    if booking.Fa
+                        - var isChecked = true
+                if toggle == "Teacher"
+                    if booking.Fa == roomNo
+                        - var isChecked = true
+                label() 
+                    div#cell
+                        input(type="checkbox" checked= isChecked ? true : false  ) 
+                        div()
+                        a() 
+        
+            td(class = "finCol")
+                button(class = "btn") /\ 
+
+
+

@@ -1,40 +1,20 @@
-button{
-  padding: 0;
-  width: 100%;
-  height: 3vh;
-  border: none;
-  background:  var(--colour2);
-  color: var(--light);
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.addBtn{
- height: 5vh; 
-}
-
-button:hover{
-  background-color: var(--colour4);
-}
-
-.nameHeading{
-  background-color: var(--colour5);
-  display: inline-block;
-}
-
-
+/*
+  TEXT BOX INPUT
+*/
 input[type="text"] {
   padding: 0px 0px;
   width: 100%;
   height: 3vh;
   border-width: 0px;
 }
-div#cell{
-  position: relative;
-  height: 100%
+
+label#textboxContainer{
+  display: flex;
 }
 
-
+/*
+  CHECKBOXES TABLE CELLS
+*/
 input[type="checkbox"]  {
   display: none;
 }

@@ -1,12 +1,4 @@
 :root {
-    /*
-    --colour1: #e0e1dd;
-    --colour2: #778da9;
-    --colour3: #415a77;
-    --colour4: #1b263b;
-    --colour5: #0d1b2a;
-    --colour6: #04080d;
-    */
     --colour1: #55808B;
     --colour2: #2d2e2f;
     --colour3: #303638;
@@ -22,24 +14,25 @@
 body{
     width: 100vw;
     margin: 0;
-    background-color: var(--colour3);
     color: var(--light); 
 
 }
 
 div#root {
-    background-color: var(--dark);
+    background: conic-gradient(at 50% 25%, var(--colour1), var(--colour1), var(--contrast), var(--colour1));
 
 }
 
+/*
+    NAV BAR
+*/
+
 .navBar{
     overflow: hidden;
-    background-color: var(--colour5);
+    background: var(--colour5);
     display: inline-flex;
     width: 100%;
     height: 7vh;
-    align-items: center;
-    color: var(--light);
 
 }
 
@@ -48,7 +41,8 @@ div#root {
     text-decoration: none;
     font-family: "Verdana";
     color: var(--light);
- 
+    text-align: left;
+
 }
 
 .navBtn:hover{

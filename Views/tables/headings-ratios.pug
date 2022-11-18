@@ -1,0 +1,28 @@
+block headings-ratios 
+    div#headingsRatios 
+        table
+            thead
+                th(class = "col1") Room #{roomNo}
+                th() Mm
+                th() Ma 
+                th() Tm
+                th() Ta
+                th() Wm 
+                th() Wa 
+                th() Thm
+                th() Tha
+                th() Fm
+                th() Fa
+                th(class = "finCol") go up
+            tr
+                td(class = "col1") Teacher Ratio 
+                each ratio in teachRatios
+                    td() #{ratio}
+                td(class = "finCol")
+
+            tr#remainingArea
+                td(class = "col1") Remaining Area
+                each ratio in roomRatios
+                    td() #{ratio} m
+                        sup 2
+                td(class = "finCol")

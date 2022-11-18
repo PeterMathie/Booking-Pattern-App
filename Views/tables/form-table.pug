@@ -1,0 +1,33 @@
+block form-table
+    div#toggleButtons
+        table#formTable
+            tr
+                td(colspan="1")#roomSelect
+                    label() 
+                        div Room 1
+                            input(type = "radio" id = "rm1" value=1 name = "roomNo" checked=roomNo==1 )
+                td(colspan="2")#roomSelect
+                    label() 
+                        div Room 2
+                            input(type = "radio" id = "rm2" value=2 name = "roomNo" checked=roomNo==1 )
+                td(colspan="1")#roomSelect
+                    label() 
+                        div Room 3
+                            input(type = "radio" id = "rm3" value=3 name = "roomNo" checked=roomNo==3 )
+            tr
+                td(colspan="2" width="50%" )#toggleSelect
+                    label() 
+                        div Student
+                            input(type = "radio" value="Student" name = "toggle" checked=toggle=="Student")
+                td(colspan="2" width="50%"  )#toggleSelect
+                    label() 
+                        div Teacher 
+                            input(type = "radio" value="Teacher" name = "toggle" checked=toggle=="Teacher")
+            tr
+                td(colspan="6" )
+                    label() 
+                        div Date 
+                            input(type="date" value=date name = "date" required pattern="\d{4}-\d{2}-\d{2}" )
+            tr
+                td(colspan="6" )#btnCell
+                    button() Submit

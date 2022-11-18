@@ -163,7 +163,7 @@ function getRoomRatio(results, roomSize, date){
                 roomRatios[9]-=getRule(ageMonths);
             }
         }
-        return roomRatios.map(x => x.toPrecision(4));
+        return roomRatios.map(x => x.toPrecision(3));
 
     }
 
@@ -226,7 +226,7 @@ function getWeightedSum(results, roomSize, date){
         }
     }
 
-    return weightedSum.map(x => x.toPrecision(4));
+    return weightedSum.map(x => x.toPrecision(2));
 
 }
 
@@ -284,7 +284,7 @@ function getTeachRatios(sumTeachers, weightedSumStudents) {
             if(isNaN(ratio)){
                 ratio = 0;
             }
-        return ratio.toPrecision(4);
+        return ratio.toPrecision(2);
     });
     return teachRatios;
 

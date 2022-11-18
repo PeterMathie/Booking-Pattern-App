@@ -1,15 +1,8 @@
 block variables
 doctype html
 html
-  div(class = "navBar")
-    a(class = "navBtn" href="/") home
-    a(class = "navBtn" href="/students") Students
-    a(class = "navBtn" href="/teachers") Teachers
-    a(class = "navBtn" href="/bookingPatterns") Booking patterns
-    a(class = "navBtn" href="/updateStudents") Update Students
-    a(class = "navBtn" href="/updateTeachers") Update Teachers
-    a(class = "navBtn" href="/") Update Rooms  
-    a(class = "navBtn" href="/updatePatterns") Update Patterns  
+  block nav  
+    include include/nav 
   head
     meta(charset="utf-8")
     meta(name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no")

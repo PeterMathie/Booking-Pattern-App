@@ -1,0 +1,27 @@
+block scrollable 
+    div#scrollable
+        table#bookPatterntable 
+            tr#sticky 
+                td(class = "col1")#nameHeading Name 
+                td(colspan="11")#btnCell
+                    button(type="button" onclick=`makeVisible()` required pattern="[A-Za-z]" class ="btn") + #{toggle} 
+
+            tr#newStudentRow  
+                td(class = "col1")
+                    label()#textBoxContainer
+                        input(type="text" name = "name")
+
+                each time in [Mm,Ma,Tm,Ta,Wm,Wa,Thm,Tha,Fm,Fa]
+                    td
+                        label() 
+                            div()#cell                                     
+                                input(type="checkbox" value = "1" name = time)
+                                div()
+                                a() 
+                td(class = "finCol")
+                    button(onclick=`submitBoth()`) +
+                    
+            block booking-pattern-data        
+                include booking-pattern-data
+               
+
