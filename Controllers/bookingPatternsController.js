@@ -17,12 +17,12 @@ module.exports = (connDB, io) => {
         var bookingPatternsTeachers;
         var bookingPatterns;
 
-        var weightedSumStudents;
-        var roomRatios;
-        var sumTeachers;
-        var teachRatios; 
+        var weightedSumStudents = [];
+        var roomRatios = [];
+        var sumTeachers = [];
+        var teachRatios = []; 
 
-        var roomSize;
+        var roomSize = 0;
         getRoomSize(connDB, roomNo, function(result){
             roomSize = result;
         });
@@ -42,9 +42,9 @@ module.exports = (connDB, io) => {
 
                 getDropDownNames(connDB, roomNo, date, toggle, function(result){
                     nameArray = result
-                    console.log(toggle  )
+
                     /*
-                    console.log("bp TEACHERS: ",bookingPatternsTeachers)
+                    console.log("BP TEACHERS: ",bookingPatternsTeachers)
 
                     console.log("SUM TEACHER: "+sumTeachers)
                     console.log("SUM STUDENT: "+weightedSumStudents)
@@ -342,9 +342,14 @@ async function getBookingPatternStudent(connDB, roomNo, date, callback){
         (error, results, fields) => {
             if(error) {
                 console.log("error "+ error + "\n")
-                //throw error;
             }
-            
+            else if (!results.length) {                                                   
+                console.log('Error2');
+            }
+            else if (!results[0].something) {
+                console.log('Error3');
+            }
+            console.log(results)
             callback(results)
         }
     );
@@ -372,11 +377,13 @@ async function getBookingPatternTeacher(connDB, roomNo, date, callback){
         (error, results, fields) => {
             if(error) {
                 console.log("error "+ error + "\n")
-                //throw error;
             }
-            console.log(date)
-
-            console.log(results)
+            else if (!results.length) {                                                   
+                console.log('Error2');
+            }
+            else if (!results[0].something) {
+                console.log('Error3');
+            }
             callback(results)
         }
     );
@@ -388,7 +395,12 @@ function getRoomSize(connDB, roomNo, callback){
         (error, results, fields) => {
             if(error) {
                 console.log("error "+ error + "\n")
-                //throw error;
+            }
+            else if (!results.length) {                                                   
+                console.log('Error2');
+            }
+            else if (!results[0].something) {
+                console.log('Error3');
             }
             return callback(results[0].Size)
         }
@@ -399,7 +411,6 @@ function getRoomSize(connDB, roomNo, callback){
 function getDropDownNames(connDB, roomNo, date, toggle, callback){
 
     if (toggle == "Student"){
-        console.log("students")
         var upperDateCol;
         var lowerDateCol;
 
@@ -432,15 +443,18 @@ function getDropDownNames(connDB, roomNo, date, toggle, callback){
             (error, results, fields) => {
                 if(error) {
                     console.log("error "+ error + "\n")
-                    //throw error;
-                } 
-            callback(results)
+                }
+                else if (!results.length) {                                                   
+                    console.log('Error2');
+                }
+                else if (!results[0].something) {
+                    console.log('Error3');
+                }   
+                callback(results)
             }
         );
     }
     else if (toggle == "Teacher"){
-        console.log("teachers")
-
         connDB.query(
             "SELECT \
                 Name \
@@ -449,46 +463,16 @@ function getDropDownNames(connDB, roomNo, date, toggle, callback){
             (error, results, fields) => {
                 if(error) {
                     console.log("error "+ error + "\n")
-                    //throw error;
                 }
-            callback(results)
+                else if (!results.length) {                                                   
+                    console.log('Error2');
+                }
+                else if (!results[0].something) {
+                    console.log('Error3');
+                }   
+                callback(results)
             }
         );
     }
 }
 
-function getRatiosPeriod(connDB, roomNo, roomSize, period){
-    ratios = new Array(period)
-
-    var dateJS = new Date()
-
-    for(i=0; i<period; i++){
-    
-        dateJS.setDate(dateJS.getDate() + 365)
-        var date = dateJS.toJSON().toString().slice(0, 10);
-        console.log("BEFORE "+date)
-
-        // get the booking pattern for the students for that week and room
-        getBookingPatternStudent(connDB,i, roomNo, date, function(result){
-            console.log("AFTER "+i)
-
-            bookingPatternsStudents = result;
-
-            getBookingPatternTeacher(connDB, roomNo, date, function(result){
-                bookingPatternsTeachers = result;
-                /*
-                sumTeachers         = getTeachSum(bookingPatternsTeachers, roomSize, date);
-                weightedSumStudents = getWeightedSum(bookingPatternsStudents, roomSize, date);
-            
-                roomRatios          = getRoomRatio(bookingPatternsStudents, roomSize, date);
-                teachRatios         = getTeachRatios(sumTeachers, weightedSumStudents) 
-
-                datum = {date: date, roomRatios: roomRatios , teachRatios: teachRatios}
-                ratios[i] = datum;*/
-            })
-        });
-
-    }
-    console.log(ratios)
-
-}

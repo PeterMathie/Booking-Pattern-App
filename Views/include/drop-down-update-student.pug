@@ -1,0 +1,9 @@
+block drop-down-update-student
+  div#dropDownDiv
+    ul(class = "dropDown")
+      each name in studentArray.length ? studentArray : ['No Students']
+        li(class = "dropDownElems", onclick=`fillInputUpdateStudents(${JSON.stringify(name.idStudent)},${JSON.stringify(name.Name)},${JSON.stringify(name.DoB)},${JSON.stringify(name.startDate)},${JSON.stringify(name.roomOneEnd)},${JSON.stringify(name.roomTwoEnd)},${JSON.stringify(name.roomThreeEnd)})`) #{name.Name}
+        
+  
+  link(rel='stylesheet', href='/stylesheets/updateStudents.css')
+

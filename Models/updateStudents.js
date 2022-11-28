@@ -7,7 +7,7 @@ module.exports = (connDB, io) => {
 
     /* add student to DB. */
     router.get("/", (req, res, next) => {
-        updateStudentController.seedStudents(req, res, next);
+        updateStudentController.updateStudents(req, res, next);
     });
 
   

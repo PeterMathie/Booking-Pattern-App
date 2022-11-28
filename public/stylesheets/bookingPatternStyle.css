@@ -4,53 +4,72 @@
 input[type="text"] {
   padding: 0px 0px;
   width: 106%;
-  height: var(--cellHeightLarge);
+  height: 100%;
   border-width: 0px;
+  border:none;
+  text-align: right;
+  font-size: 15pt;
+  font-weight: 250;
+  z-index: 100;
+
 }
 
 label#textboxContainer{
   display: flex;
   position: absolute;
+  z-index: 100;
+
 }
 
-label#textBoxContainer:hover ul.dropDown{
+input[type="text"]:focus{
+  outline:none;
+}
+
+label#textBoxContainer:hover div#dropDownDiv{
   display: inline-block;	/* Display the dropdown */
 }
 tr#newStudentRow td{
   padding:0;
+  z-index: 100;
+
 }
 /*
   DROP DOWN LIST
 */
-
-
 .dropDown{
+  text-align: center;
+  line-height: var(--cellHeightLarge);
+  list-style: none;
+  background: linear-gradient(180deg, var(--colour5), var(--colour2), var(--colour3), var(--colour2),var(--colour5));
+  max-height:18vh;
+  width: 16vw;
+  overflow:auto;
+  padding-left: 0;
+  margin: 0;
+  opacity: 100%;
+  border-radius: 2px 2px 2px 2px;
+
+}
+
+div#dropDownDiv{
   display: none;
   position: absolute;
-  width: 10%;
-  max-height:24vh;
-  overflow:auto;
+  overflow:none;
+  background: var(--colour1);
+  z-index: 101;
+  transform: translate(0, -6.2vh);
+  padding: 0.2vh;
+  border-radius: 2px 2px 2px 2px;
 
-  line-height: var(--cellHeightLarge);
-  text-align: left;
-  list-style: none;
-
-  padding: 0;
-  margin: -9vh 0vh;
-
-  z-index: 9999;
-  background: linear-gradient(180deg, var(--colour5), var(--colour2), var(--colour3), var(--colour2),var(--colour5));
 }
 
-.dropDown:hover{
+div#dropDownDiv:hover{
   display: flex;
 }
+
 .dropDownElems:hover{
   background: #939393;
 }
-
-
-
 
 /*
   CHECKBOXES TABLE CELLS
@@ -76,15 +95,19 @@ input[type="checkbox"]:checked + div {
   transform: translate(-50%, -50%);
 
 }
+input#newNameInput{
+  width:100%;
+}
 
+th#textBoxContainer{
+  background-color: white;
+}
 td > label > div > div {
   width: 100%;
   height: var(--cellHeightLarge);
   position: absolute;
+
 }
-
-
-
 
 /* 
     BUTTONS
@@ -93,27 +116,40 @@ div#btnCell{
   position: relative;
 }
 
-td#btnCell{
+th#btnCell{
   position: relative;
+  width: 84%;
 }
 
 button{
   padding: 0;
   width: 100%;
-  height: var(--cellHeightLarge);
+  height: 100%;
   border: none;
-  background: linear-gradient(45deg, var(--colour3), var(--colour2));
+  background: linear-gradient(65deg, var(--colour4), var(--colour2), var(--colour4));
   color: var(--light);
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 100;
 } 
 
 button:hover{
-  background: linear-gradient(45deg, var(--colour2), var(--colour3));
+  /*background: linear-gradient(32deg, var(--colour4),var(--colour3),var(--colour2), var(--colour1),var(--colour2), var(--colour3), var(--colour4));
+  */
+
+  background: radial-gradient(
+    var(--colour5) 0%,
+    var(--colour4) 100%
+  );
 }
 button#roundBtn{
   border-radius: 0 0 6px 6px;
   height: var(--cellHeightSmall);
 
+}
+
+button#addBtn{
+  z-index: 102;
+  height: 100%;
 }

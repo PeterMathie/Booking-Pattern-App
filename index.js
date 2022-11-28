@@ -6,6 +6,8 @@
 const express = require("express");
 const path = require("path");
 const mysql = require("mysql")
+const http = require('http');
+
 require('dotenv').config();
 
 /**
@@ -20,9 +22,19 @@ const port = process.env.PORT || "8064";
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 app.use(express.static(path.join(__dirname, "public")));
+app.set('port', port);
 
 
-// db
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+
+/**
+ *  Database
+ */ 
 var connDB = mysql.createConnection({
   host: process.env.RDS_HOSTNAME,
   user: process.env.RDS_USERNAME,
@@ -55,14 +67,12 @@ app.use('/teachers', require('./Models/teachers')(connDB));
 app.use('/bookingPatterns', require('./Models/bookingPatterns')(connDB));
 
 app.use('/updateStudents', require('./Models/updateStudents')(connDB));
+app.use('/addStudents', require('./Models/addStudents')(connDB));
+
 app.use('/updateTeachers', require('./Models/updateTeachers')(connDB));
 
 app.use('/updatePatterns', require('./Models/updatePatterns')(connDB));
 
-
-/*
-app.use('/updateRooms', require('./Models/updateRooms')(connDB));
-*/
 
 /**
  * Server Activation

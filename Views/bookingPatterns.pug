@@ -8,21 +8,29 @@ block layout-content
         block booking-pattern-table 
             include tables/booking-pattern-table 
             
-    link(rel='stylesheet', href='/stylesheets/bookingPatternStyle.css')
+
+
 
     script.
-        function makeVisible() {
-            document.getElementById("newStudentRow").style.display = "table-row";
-        } 
-    
-    script.
-        function submitBoth(){
-            document.getElementById("formTable").submit();
+        function highlightCols(time){
+            var elems =  document.getElementsByClassName(time);
+            //document.getElementsByClassName(time[0]).style.background = "#FFFFF";
+            for(i = 1; i<elems.length; i++){
+                //elems[i].style.background = "#2d2e2f"
+            }
         }
 
-
     script.
-        functionfillInput(name){
-            document.getElementById("newNameInput").value = name;
+        function reverseHighlightCols(time){
+            var elems =  document.getElementsByClassName(time);
+            //document.getElementsByClassName(time[0]).style.background = "#FFFFF";
+            for(i = 0; i<elems.length; i++){
+                if(i%2 == 0){
+                   // elems[i].style.background = "#151718"
+                }
+                else{
+                    //elems[i].style.background = "#101111"
 
+                }
+            }
         }

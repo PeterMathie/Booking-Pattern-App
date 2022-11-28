@@ -1,1 +1,99 @@
+div#updateStudents{
+    display: flex;
+    width: 100%;
+    height: 94vh; 
+    margin: 0;
+}   
+div#formDiv{
+    width: 500px;
+    height: 91vh; 
+    background: linear-gradient(45deg, var(--colour4), var(--colour5));
+    margin: auto;
+    text-align: left;
+    border-radius: 20px;
+    padding: 0vw 2vh;
+}
 
+td#topRow{
+    border-radius: 12px 12px 0px 0px;
+    overflow: hidden;
+
+}
+
+
+div #reset{
+    width: 100%;
+    height: var(--cellHeightLarge);
+    background-color: var(--colour1);
+    line-height: var(--cellHeightLarge);
+    text-align: center;
+    border-radius: 12px;
+}
+
+
+table#formDivWrapper > tbody > tr >td{
+    height: 7vh;
+    border: 0;
+    text-align: left;
+    padding-left: 2vh;
+    padding-right: 2vh;
+}
+
+div#formDivWrapper{
+    padding: 1vh 5vw;
+    display: flex;
+    justify-content: space-between;
+}
+td#updateStudentButton{
+    border-radius: 0px 0px 12px 12px;
+    overflow: hidden;
+}
+
+td#nameDiv:hover div#dropDownDiv{
+    display: inline-block;	/* Display the dropdown */
+}
+
+input#newNameInput:hover div#dropDownDiv{
+    display: inline-block;
+}
+
+p{
+    width: 100%;
+}
+
+div#dropDownDiv{
+}
+div#DoBDiv{
+
+}
+div#startDiv {
+ 
+}
+div#rm1EndDiv{
+
+}
+div#rm2EndDiv{
+
+}
+div#rm3EndDiv{
+}
+
+input[tpye="date"]{
+    height: 7vh;
+    width: 100%;
+}
+div#inputContainer{
+    height: 100%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+table#formDivWrapper > tbody > tr >td:nth-child(1) {
+    width: 75vw;
+
+}
+
+table#formDivWrapper > tbody > tr >td:nth-child(2) {
+    width: 25vw;
+    
+}

@@ -15,13 +15,13 @@ block headings-ratios
                 th() Fa
                 th(class = "finCol") go up
             tr
-                td(class = "col1") Teacher Ratio 
+                th(class = "col1") Teacher Ratio 
                 each ratio in teachRatios
                     td() #{ratio}
                 td(class = "finCol")
 
             tr#remainingArea
-                td(class = "col1") Remaining Area
+                th(class = "col1") Remaining Area
                 each ratio in roomRatios
                     td() #{ratio} m
                         sup 2

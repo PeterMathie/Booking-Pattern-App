@@ -1,8 +1,9 @@
 block drop-down-student-names
-  ul(class = "dropDown")
-    each name in nameArray.length ? nameArray : ['No Students']
-      li(class = "dropDownElems" ) #{name.Name}
-        button(onclick=`fillInput(`+ name.Name +`)`) 
-    
+  div#dropDownDiv
+    ul(class = "dropDown")
+      each name in nameArray.length ? nameArray : ['No Students']
+        li(class = "dropDownElems", onclick=`fillInput(${JSON.stringify(name.Name)})`) #{name.Name}
+        
+  
   link(rel='stylesheet', href='/stylesheets/updateStudents.css')
 

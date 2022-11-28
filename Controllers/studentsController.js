@@ -4,6 +4,7 @@ module.exports = (connDB, io) => {
 let studentController = {}
 
     studentController.students = (req, res, next) => {
+        studentsArray = [];
         connDB.query(
                 "SELECT * FROM Student",
                 (error, results, fields) => {
@@ -19,8 +20,8 @@ let studentController = {}
                         results[i].roomThreeEnd = results[i].roomThreeEnd.toLocaleDateString('en-GB')
 
                     }
-                    
-                    res.render("students",{ studentsArray: results} );
+                    studentsArray = results;
+                    res.render("students",{ studentsArray: studentsArray} );
 
                 });
 

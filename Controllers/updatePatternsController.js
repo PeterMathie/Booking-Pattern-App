@@ -8,10 +8,10 @@ module.exports = (connDB, io) => {
             "SELECT idStudent FROM Student",
             (error, results, fields) => {
                 if(error) {
-                    return console.log("error 1 "+ error + "\n")
+                    console.log("error 1 "+ error + "\n")
                 }
                 else if (!results.length) {                                                   
-                    return console.log("error 2 "+ error + "\n");
+                    console.log("error 2 "+ error + "\n");
                 } 
                 for(i in results){
                     idStudent = results[i].idStudent
@@ -26,8 +26,13 @@ module.exports = (connDB, io) => {
                         (error, results, fields) => {
                             if(error) {
                                 console.log("error "+ error + "\n")
-                                //throw error;
                             }
+                            else if (!results.length) {                                                   
+                                console.log('Error2');
+                            }
+                            else if (!results[0].something) {
+                                console.log('Error3');
+                            }   
                         }
                     )
                 }
@@ -43,10 +48,10 @@ module.exports = (connDB, io) => {
             (error, results, fields) => {
 
                 if(error) {
-                    return console.log("error 1 "+ error + "\n")
+                    console.log("error 1 "+ error + "\n")
                 }
                 else if (!results.length) {                                                   
-                    return console.log("error 2 "+ error + "\n");
+                    console.log("error 2 "+ error + "\n");
                 } 
                 for(i in results){
                     idTeacher = results[i].idTeacher
@@ -59,8 +64,13 @@ module.exports = (connDB, io) => {
                         (error, results, fields) => {
                             if(error) {
                                 console.log("error "+ error + "\n")
-                                //throw error;
                             }
+                            else if (!results.length) {                                                   
+                                console.log('Error2');
+                            }
+                            else if (!results[0].something) {
+                                console.log('Error3');
+                            }   
                         }
                     )
                 }

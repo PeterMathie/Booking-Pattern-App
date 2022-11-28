@@ -1,10 +1,11 @@
 module.exports = (connDB, io) => {
 
     let updateTeacherController = {}
-    
-    updateTeacherController.seedTeachers = (req, res, next) => {
-    
+    updateTeacherController.updateTeacher = (req, res, next) => {
 
+    }
+
+    updateTeacherController.seedTeachers = (req, res, next) => {
         /*
         Adds teachers to the database
         */
@@ -12,10 +13,16 @@ module.exports = (connDB, io) => {
             'INSERT INTO Teacher(Name, Level) VALUES(?,?)',
             [makeid(5), randomInt(0,5)],
             (error, results, fields) => {
-            if (error) {
-                throw error;
-            }
-            console.log("\nNew Teacher row added \n");
+                if(error) {
+                    console.log("error "+ error + "\n")
+                    }
+                else if (!results.length) {                                                   
+                    console.log('Error2');
+                }
+                else if (!results[0].something) {
+                    console.log('Error3');
+                } 
+                console.log("\nNew Teacher row added \n");
         });
 
 

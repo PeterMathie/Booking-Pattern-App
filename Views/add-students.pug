@@ -1,0 +1,54 @@
+extends layout
+
+block layout-content  
+    div#updateStudents
+        div#formDiv
+            table#formDivWrapper
+                form
+                    tr
+                        td(colspan = "2")#topRow Name
+                    tr
+                        td(colspan = "2")#nameDiv 
+                            div#inputContainer
+                                input(type="text" value = "" name = "Name")#newNameInput
+                    tr
+                        td(colspan = "2") Date of Birth
+                    tr
+                        td(colspan = "2")#DoBDiv 
+                            div#inputContainer
+                                input(type="date" value = "" name = "DoB")#DoBDatePicker
+                    tr
+                        td(colspan = "2") Start Date
+                    tr
+                        td(colspan = "2")#startDiv 
+                            div#inputContainer
+                                input(type="date" value = "" name = "startDate" autocomplete="off")#startDatePicker
+                    tr
+                        td(colspan = "2") End of Room 1 
+                    tr
+                        td#rm1EndDiv
+                            div#inputContainer
+                                input(type="date" value = "" name = "rm1End" autocomplete="off")#rm1EndDatePicker
+                        td#reset
+                            div(onclick = `resetRm1()`)#reset Reset
+                    tr
+                        td(colspan = "2") End of Room 2
+                    tr 
+                        td#rm2EndDiv 
+                            div#inputContainer
+                                input(type="date" value = "" name = "rm2End" autocomplete="off")#rm2EndDatePicker
+                        td#reset
+                            div(onclick = `resetRm2()`)#reset Reset
+                    tr
+                        td(colspan = "2") End of Room 3
+                    tr
+                        td#rm3EndDiv 
+                            div#inputContainer
+                                input(type="date" value = "" name = "rm3End" autocomplete="off")#rm3EndDatePicker
+                        td#reset
+                            div(onclick = `resetRm3()`)#reset Reset
+                    tr
+                        td(colspan = "2")#updateStudentButton 
+                            button#updateStudentButton Submit
+
+    link(rel='stylesheet', href='/stylesheets/updateStudents.css')

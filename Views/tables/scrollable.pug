@@ -2,27 +2,78 @@ block scrollable
     div#scrollable
         table#bookPatterntable 
             tr#sticky 
-                td(class = "col1")#nameHeading Name 
-                td(colspan="11")#btnCell
-                    button(type="button" onclick=`makeVisible()` required pattern="[A-Za-z]" class ="btn") + #{toggle} 
+                th(class = "col1")#nameHeading Name 
+                th(colspan="11")#btnCell
+                    button(type="button" onclick=`makeVisible()` required pattern="[A-Za-z]" class ="btn")#addBtn + #{toggle} 
 
             tr#newStudentRow  
-                td(class = "col1")
+                th(class = "col1")#textBoxContainer
                     label()#textBoxContainer
-                        input(type="text" value = "" name = "Name")#newNameInput
+                        input(type="text" value = "" name = "Name" readonly autocomplete="off" )#newNameInput
                         block drop-down-student-names
                             include ../include/drop-down-student-names
-                each time in [Mm,Ma,Tm,Ta,Wm,Wa,Thm,Tha,Fm,Fa]
-                    td
-                        label() 
-                            div()#cell                                     
-                                input(type="checkbox" value = "1" name = time)
-                                div()
-                                a() 
+                td(class = "Mm")
+                    label() 
+                        div()#cell                                     
+                            input(type="checkbox" value = "1" name = "Mm")
+                            div()
+                            a() 
+                td(class = "Ma")
+                    label() 
+                        div()#cell                                     
+                            input(type="checkbox" value = "1" name = "Ma")
+                            div()
+                            a() 
+                td(class = "Tm")
+                    label() 
+                        div()#cell                                     
+                            input(type="checkbox" value = "1" name = "Tm")
+                            div()
+                            a() 
+                td(class = "Ta")
+                    label() 
+                        div()#cell                                     
+                            input(type="checkbox" value = "1" name = "Ta")
+                            div()
+                            a() 
+                td(class = "Wm")
+                    label() 
+                        div()#cell                                     
+                            input(type="checkbox" value = "1" name = "Wm")
+                            div()
+                            a() 
+                td(class = "Wa")
+                    label() 
+                        div()#cell                                     
+                            input(type="checkbox" value = "1" name = "Wa")
+                            div()
+                            a() 
+                td(class = "Thm")
+                    label() 
+                        div()#cell                                     
+                            input(type="checkbox" value = "1" name = "Thm")
+                            div()
+                            a() 
+                td(class = "Tha")
+                    label() 
+                        div()#cell                                     
+                            input(type="checkbox" value = "1" name = "Tha")
+                            div()
+                            a() 
+                td(class = "Fm")
+                    label() 
+                        div()#cell                                     
+                            input(type="checkbox" value = "1" name = "Fm")
+                            div()
+                            a() 
+                td(class = "Fa")
+                    label() 
+                        div()#cell                                     
+                            input(type="checkbox" value = "1" name = "Fa")
+                            div()
+                            a() 
                 td(class = "finCol")
                     button(onclick=`submitBoth()`) +
-                    
+                
             block booking-pattern-data        
                 include booking-pattern-data
-               
-

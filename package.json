@@ -11,7 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.3",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "ws": "^8.11.0"
   },
   "devDependencies": {
     "browser-sync": "^2.27.10"

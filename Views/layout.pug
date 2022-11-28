@@ -10,7 +10,63 @@ html
   body
     div#root(width="100%")
       block layout-content
-      
+
+      script.
+        function makeVisible() {
+            document.getElementById("newStudentRow").style.display = "table-row";
+        } 
+    
+    script.
+        function submitBoth(){
+            document.getElementById("formTable").submit();
+        }
+
+    script.
+      function fillInput(name){
+          document.getElementById("newNameInput").value = name;
+      }  
+    script.
+      function fillInputUpdateStudents(idStudent, name, DoB, startDate, roomOneEnd, roomTwoEnd, roomThreeEnd){
+          document.getElementById("idStudent").value        = idStudent;
+          document.getElementById("newNameInput").value     = name;
+          document.getElementById("DoBDatePicker").value    = DoB.slice(0,10);
+          document.getElementById("startDatePicker").value  = startDate.slice(0,10);
+          document.getElementById("rm1EndDatePicker").value = roomOneEnd.slice(0,10);
+          document.getElementById("rm2EndDatePicker").value = roomTwoEnd.slice(0,10);
+          document.getElementById("rm3EndDatePicker").value = roomThreeEnd.slice(0,10);
+
+      }
+    script.
+      function resetRm1(DoB){
+        DoB = new Date(document.getElementById("DoBDatePicker").value)
+        var yyyy = DoB.getFullYear()+2 ;
+        var mm = DoB.getMonth()<10 ? "0"+(DoB.getMonth()+1) : (DoB.getMonth()+1)
+        var dd = DoB.getDate()<10 ? "0"+DoB.getDate(): DoB.getDate()
+        endDate = yyyy + "-" + mm + "-" + dd
+
+        document.getElementById("rm1EndDatePicker").value = endDate;
+      }
+    script.
+      function resetRm2(DoB){
+        DoB = new Date(document.getElementById("DoBDatePicker").value)
+        var yyyy = DoB.getFullYear()+3 ;
+        var mm = DoB.getMonth()<10 ? "0"+(DoB.getMonth()+1) : (DoB.getMonth()+1)
+        var dd = DoB.getDate()<10 ? "0"+DoB.getDate(): DoB.getDate()
+        endDate = yyyy + "-" + mm + "-" + dd
+
+        document.getElementById("rm2EndDatePicker").value = endDate;
+      }  
+    script.
+      function resetRm3(DoB){
+        DoB = new Date(document.getElementById("DoBDatePicker").value)
+        var yyyy = DoB.getFullYear()+5 ;
+        var mm = DoB.getMonth()<10 ? "0"+(DoB.getMonth()+1) : (DoB.getMonth()+1)
+        var dd = DoB.getDate()<10 ? "0"+DoB.getDate(): DoB.getDate()
+        endDate = yyyy + "-" + mm + "-" + dd
+
+        document.getElementById("rm3EndDatePicker").value = endDate;
+      }    
+
   link(rel='stylesheet', href='/stylesheets/style.css')
   link(rel='stylesheet', href='/stylesheets/bookingPatternStyle.css')
   link(rel='stylesheet', href='/stylesheets/tableStyle.css')

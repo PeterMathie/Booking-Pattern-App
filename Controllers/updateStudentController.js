@@ -1,13 +1,38 @@
 module.exports = (connDB, io) => {
 
     let updateStudentController = {}
+
     updateStudentController.updateStudents = (req, res, next) => {
+        var fullUrl =new URL( req.protocol + '://' + req.get('host') + req.originalUrl );
+        var searchURL = fullUrl.searchParams;
         
-    
-    
+        var idStudent   = searchURL.get("idStudent") == null ? "" : searchURL.get("idStudent");
+        var name        = searchURL.get("Name") == null ? "" : searchURL.get("Name");
+
+        var DoB         = searchURL.get("DoB") == null ? "" : searchURL.get("DoB");
+        var startDate   = searchURL.get("startDate") == null ? "" : searchURL.get("startDate");
+
+        var rm1End      = searchURL.get("rm1End") == null ? "" : searchURL.get("rm1End");
+        var rm2End      = searchURL.get("rm2End") == null ? "" : searchURL.get("rm2End");
+        var rm3End      = searchURL.get("rm3End") == null ? "" : searchURL.get("rm3End");
+
+        updateStudents(connDB, idStudent, name, DoB, startDate, rm1End, rm2End, rm3End);    
+            
+        connDB.query(
+            'SELECT * FROM Student',
+            (error, results, fields) => {
+                if(error) {
+                    console.log("error "+ error + "\n")
+                    }
+                else if (!results.length) {                                                   
+                    console.log('Error2');
+                }
+                else if (!results[0].something) {
+                    console.log('Error3');
+                } 
+                res.render("update-students", {studentArray: results});
+            });
     }
-
-
     
     updateStudentController.seedStudents = (req, res, next) => {
 
@@ -24,19 +49,31 @@ module.exports = (connDB, io) => {
             VALUES(?,?,?,?,?,?)',
             [name, DoB, startDate, roomOneEnd, roomTwoEnd, roomThreeEnd],
             (error, results, fields) => {
-            if (error) {
-                throw error;
-            }
-            console.log("\nNew Student row added\n");
+                if(error) {
+                    console.log("error "+ error + "\n")
+                    }
+                else if (!results.length) {                                                   
+                    console.log('Error2');
+                }
+                else if (!results[0].something) {
+                    console.log('Error3');
+                }
+                console.log("\nNew Student row added\n");
         });
 
         connDB.query(
             'SELECT * FROM Student',
             (error, results, fields) => {
-            if (error) {
-                throw error;
-            }
-            res.render("index", { title: "Home" });
+                if(error) {
+                    console.log("error "+ error + "\n")
+                    }
+                else if (!results.length) {                                                   
+                    console.log('Error2');
+                }
+                else if (!results[0].something) {
+                    console.log('Error3');
+                } 
+                res.render("index", { title: "Home" });
         });
 
 
@@ -85,22 +122,54 @@ function getRoom(DoB, roomStart){
 
 function getOneEnd(DoB){
     var endDate = new Date(DoB);
-    endDate.setDate(endDate.getDate() + 365*2);
+    
+    var yyyy = DoB.getFullYear()+2 ;
+    var mm = DoB.getMonth()<10 ? "0"+(DoB.getMonth()+1) : (DoB.getMonth()+1)
+    var dd = DoB.getDate()<10 ? "0"+DoB.getDate(): DoB.getDate()
+    endDate = yyyy + "-" + mm + "-" + dd
 
     return endDate;
 }
 function getTwoEnd(DoB){
     var endDate = new Date(DoB);
-    endDate.setDate(endDate.getDate() + 365*3);
+
+    var yyyy = DoB.getFullYear()+3 ;
+    var mm = DoB.getMonth()<10 ? "0"+(DoB.getMonth()+1) : (DoB.getMonth()+1)
+    var dd = DoB.getDate()<10 ? "0"+DoB.getDate(): DoB.getDate()
+    endDate = yyyy + "-" + mm + "-" + dd
 
     return endDate;
 }
 function getThreeEnd(DoB){
     var endDate = new Date(DoB);
-    endDate.setDate(endDate.getDate() + 365*5);
+
+    var yyyy = DoB.getFullYear()+5 ;
+    var mm = DoB.getMonth()<10 ? "0"+(DoB.getMonth()+1) : (DoB.getMonth()+1)
+    var dd = DoB.getDate()<10 ? "0"+DoB.getDate(): DoB.getDate()
+    endDate = yyyy + "-" + mm + "-" + dd
 
     return endDate;
 }
 
 
-
+function updateStudents(connDB, idStudent, name, DoB, startDate, rm1End, rm2End, rm3End){
+    connDB.query('\
+    UPDATE\
+        Student\
+    SET\
+        Name         = "'+name     +'",\
+        DoB          = "'+DoB      +'",\
+        startDate    = "'+startDate+'",\
+        roomOneEnd   = "'+rm1End   +'",\
+        roomTwoEnd   = "'+rm2End   +'",\
+        roomThreeEnd = "'+rm3End   +'" \
+    WHERE \
+        idStudent    = "'+idStudent+'";\
+    ',
+    (error, results, fields) => {
+        if(error) {
+            console.log("error "+ error + "\n")
+            }
+    });
+    
+}
