@@ -2,7 +2,6 @@ const express = require("express");
 
 module.exports = (connDB, io) => {
     let studentController = require("../Controllers/studentsController.js")(connDB);
-    let indexController = require('../Controllers/indexController.js')(connDB);
 
     var router = express.Router();
 

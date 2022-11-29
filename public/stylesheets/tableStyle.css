@@ -10,10 +10,6 @@ table{
     text-align: center;
     font-family: "Verdana"; 
     border-spacing: 0vh 0vh;
-    text-size-adjust: none;
-    border-collapse: collapse;
-    color: var(--light);
-    border-radius: 200px;
 }
 
 th{
@@ -21,6 +17,10 @@ th{
     height: var(--headingHeight);
     width: 8%;
     color: var(--light);
+    white-space: nowrap; 
+    text-overflow:""; 
+    overflow: hidden; 
+    max-width:1px;
 }
 
 
@@ -49,7 +49,10 @@ td{
     height: var(--cellHeightLarge);
     padding: 0;
     position: relative;
-
+    white-space: nowrap; 
+    text-overflow:""; 
+    overflow: hidden; 
+    max-width:1px;
 }
 
 td:hover {
@@ -80,23 +83,19 @@ div#scrollable td:not(td#btnCell):hover::after{
     FORM TABLE
 */
 table#formTable tbody:first-child tr:first-child td:first-child{
-    border-radius: 6px 0 0 0;
+    border-radius: 3px 0 0 0;
 }
 table#formTable tbody:first-child tr:first-child td:last-child{
-    border-radius: 0 6px 0 0;
+    border-radius: 0 12px 0 0;
 }
 table#formTable tbody:first-child tr:last-child td:first-child{
-    border-radius: 0 0 6px 6px;
+    border-radius: 0 0 3px 12px;
 }
 
 table#formTable tbody:first-child tr td:last-child{
     border-right: solid 0px var(--colour5);
 }
 
-div#toggleButtons{
-    border-radius: 6px 6px 6px 6px;
-
-}
 
 td#roomSelect{
     width: 33.33%;
@@ -133,7 +132,7 @@ div#bookingPatternsTable{
     opacity: 100%;
     background: linear-gradient(45deg, var(--colour5), var(--colour4));
     border-left: solid 0px var(--colour5);
-
+    
 }
 .finCol{
     position: relative;
@@ -160,10 +159,10 @@ th#sticky .col1 {
 */
 
 div#headingsRatios table thead:first-child tr:first-child th:first-child{
-    border-radius: 6px 0 0 0;
+    border-radius: 3px 0 0 0;
 }
 div#headingsRatios table thead:first-child tr:first-child th:last-child{
-    border-radius: 0 6px 0 0;
+    border-radius: 0 12px 0 0;
 }
 
 div#headingsRatios{
@@ -188,7 +187,7 @@ div#scrollable{
     overflow: auto;
     margin-top: 0;
     color: var(--light);
-    border-radius: 0 0 6px 6px;
+    border-radius: 0 0 3px 12px;
 }
 
 div#scrollable .col1{
@@ -224,7 +223,47 @@ tr#newStudentRow{
 }
 
 
+/*
+    Student Table
+*/
 
+div#studentDiv > table {
+        overflow: auto;
+        margin-top: 0;
+}
 
-
+div#studentDiv{
+    padding: 2vh 2vw;
+    height: 90vh;
+    width: 95vw;
   
+}
+div#studentDiv > table > tbody > tr > th:nth-child(1){
+    border-radius: 3px 0 0 0;
+}
+div#studentDiv > table > tbody > tr > th:last-child{
+    border-radius: 0 12px 0 0;
+}
+div#studentDiv > table > tbody > tr:last-child > td:nth-child(1){
+    border-radius: 0 0 0 12px;
+}
+div#studentDiv > table > tbody > tr:last-child > td:last-child{
+    border-radius: 0 0 3px 0;
+}
+
+div#teacherDiv{
+    padding: 2vh 2vw;
+    width: 95vw;
+}
+div#teacherDiv > table > thead > tr > th:nth-child(1){
+    border-radius: 3px 0 0 0;
+}
+div#teacherDiv > table > thead > tr > th:last-child{
+    border-radius: 0 12px 0 0;
+}
+div#teacherDiv > table > tbody > tr:last-child > td:nth-child(1){
+    border-radius: 0 0 0 12px;
+}
+div#teacherDiv > table > tbody > tr:last-child > td:last-child{
+    border-radius: 0 0 3px 0;
+}

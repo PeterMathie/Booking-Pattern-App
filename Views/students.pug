@@ -1,19 +1,20 @@
 extends layout
 
 block layout-content
-  table
-    tr 
-      th(width = "16.6667%") Name 
-      th(width = "16.6667%") DoB 
-      th(width = "16.6667%") Start Date
-      th(width = "16.6667%") Room 1 End
-      th(width = "16.6667%") Room 2 End 
-      th(width = "16.6667%") Room 3 End 
-    each student in studentsArray.length ? studentsArray : ['No Students']
-      tr
-        td #{student.Name}
-        td #{student.DoB}
-        td #{student.startDate}
-        td #{student.roomOneEnd}
-        td #{student.roomTwoEnd}
-        td #{student.roomThreeEnd}
+  div#studentDiv
+      table
+        tr#sticky 
+          th(width = "16.6667%") Name 
+          th(width = "16.6667%") DoB 
+          th(width = "16.6667%") Start Date
+          th(width = "16.6667%") Room 1 End
+          th(width = "16.6667%") Room 2 End 
+          th(width = "16.6667%") Room 3 End 
+        each student in studentsArray.length ? studentsArray : ['No Students']
+          tr
+            td #{student.Name}
+            td #{student.DoB}
+            td #{student.startDate}
+            td #{student.roomOneEnd}
+            td #{student.roomTwoEnd}
+            td #{student.roomThreeEnd}

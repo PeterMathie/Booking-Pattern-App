@@ -27,9 +27,6 @@ module.exports = (connDB, io) => {
                 else if (!results.length) {                                                   
                     console.log('Error2');
                 }
-                else if (!results[0].something) {
-                    console.log('Error3');
-                } 
                 res.render("update-students", {studentArray: results});
             });
     }
@@ -55,9 +52,6 @@ module.exports = (connDB, io) => {
                 else if (!results.length) {                                                   
                     console.log('Error2');
                 }
-                else if (!results[0].something) {
-                    console.log('Error3');
-                }
                 console.log("\nNew Student row added\n");
         });
 
@@ -70,9 +64,6 @@ module.exports = (connDB, io) => {
                 else if (!results.length) {                                                   
                     console.log('Error2');
                 }
-                else if (!results[0].something) {
-                    console.log('Error3');
-                } 
                 res.render("index", { title: "Home" });
         });
 
@@ -128,7 +119,7 @@ function getOneEnd(DoB){
     var dd = DoB.getDate()<10 ? "0"+DoB.getDate(): DoB.getDate()
     endDate = yyyy + "-" + mm + "-" + dd
 
-    return endDate;
+    return new Date(endDate);
 }
 function getTwoEnd(DoB){
     var endDate = new Date(DoB);
@@ -138,7 +129,7 @@ function getTwoEnd(DoB){
     var dd = DoB.getDate()<10 ? "0"+DoB.getDate(): DoB.getDate()
     endDate = yyyy + "-" + mm + "-" + dd
 
-    return endDate;
+    return new Date(endDate);
 }
 function getThreeEnd(DoB){
     var endDate = new Date(DoB);
@@ -148,7 +139,7 @@ function getThreeEnd(DoB){
     var dd = DoB.getDate()<10 ? "0"+DoB.getDate(): DoB.getDate()
     endDate = yyyy + "-" + mm + "-" + dd
 
-    return endDate;
+    return new Date(endDate);
 }
 
 

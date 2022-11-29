@@ -35,7 +35,7 @@ function updateStudents(connDB, idStudent, name, DoB, startDate, rm1End, rm2End,
             console.log("error "+ error + "\n")
             }
         else{
-            console.log("New studunt added!")
+            console.log("New student row added!")
         }
     });
 }

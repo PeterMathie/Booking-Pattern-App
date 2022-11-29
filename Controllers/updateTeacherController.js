@@ -19,9 +19,6 @@ module.exports = (connDB, io) => {
                 else if (!results.length) {                                                   
                     console.log('Error2');
                 }
-                else if (!results[0].something) {
-                    console.log('Error3');
-                } 
                 console.log("\nNew Teacher row added \n");
         });
 

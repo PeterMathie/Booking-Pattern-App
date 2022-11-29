@@ -1,12 +1,13 @@
 extends layout
 
 block layout-content
-  table
-    thead
-      tr 
-        th(width = "50%") Name 
-        th(width = "50%") Level 
-    each teacher in teachersArray.length ? teachersArray : ['No Teachers']
-      tr
-        td #{teacher.Name}
-        td #{teacher.Level}
+  div#teacherDiv
+    table
+      thead
+        tr 
+          th(width = "50%") Name 
+          th(width = "50%") Level 
+      each teacher in teachersArray.length ? teachersArray : ['No Teachers']
+        tr
+          td #{teacher.Name}
+          td #{teacher.Level}

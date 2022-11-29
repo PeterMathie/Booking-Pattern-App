@@ -30,13 +30,10 @@ module.exports = (connDB, io) => {
                             else if (!results.length) {                                                   
                                 console.log('Error2');
                             }
-                            else if (!results[0].something) {
-                                console.log('Error3');
-                            }   
                         }
                     )
                 }
-                console.log("Booking patterns randomised.")
+                console.log("Booking patterns randomised!")
             }
         )    
         res.render("index" );
@@ -46,7 +43,6 @@ module.exports = (connDB, io) => {
         connDB.query(
             "SELECT idTeacher FROM Teacher",
             (error, results, fields) => {
-
                 if(error) {
                     console.log("error 1 "+ error + "\n")
                 }
@@ -54,13 +50,14 @@ module.exports = (connDB, io) => {
                     console.log("error 2 "+ error + "\n");
                 } 
                 for(i in results){
+                    date = new Date()
                     idTeacher = results[i].idTeacher
-
+                    randDate = randomDate(new Date(), new Date( date.setDate(date.getDate() + 365) ), )
                     connDB.query(
                         "INSERT IGNORE INTO BookingPattern_Teachers             \
-                        (idTeacher, Mm, Ma, Tm, Ta, Wm, Wa, Thm, Tha, Fm, Fa)   \
-                        VALUES(?,?,?,?,?,?,?,?,?,?,?)",
-                        [idTeacherS, Math.round(Math.random()),Math.round(Math.random()),Math.round(Math.random()),Math.round(Math.random()),Math.round(Math.random()),Math.round(Math.random()),Math.round(Math.random()),Math.round(Math.random()),Math.round(Math.random()),Math.round(Math.random())],
+                        (idTeacher,endDate, Mm, Ma, Tm, Ta, Wm, Wa, Thm, Tha, Fm, Fa)   \
+                        VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
+                        [idTeacher,randDate, Math.ceil(Math.random()*3),Math.ceil(Math.random()*3),Math.ceil(Math.random()*3),Math.ceil(Math.random()*3),Math.ceil(Math.random()*3),Math.ceil(Math.random()*3),Math.ceil(Math.random()*3),Math.ceil(Math.random()*3),Math.ceil(Math.random()*3),Math.ceil(Math.random()*3)],
                         (error, results, fields) => {
                             if(error) {
                                 console.log("error "+ error + "\n")
@@ -68,9 +65,6 @@ module.exports = (connDB, io) => {
                             else if (!results.length) {                                                   
                                 console.log('Error2');
                             }
-                            else if (!results[0].something) {
-                                console.log('Error3');
-                            }   
                         }
                     )
                 }
@@ -97,4 +91,16 @@ function getRoom(DoB, roomStart){
     if(ageMonths < 60){return 3;}
 
     console.log("TOO OLD");
+}
+
+function randomDate(start, end) {
+    var d = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return new Date(year, month, day);
 }

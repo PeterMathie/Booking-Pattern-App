@@ -1,3 +1,4 @@
+const { get } = require("browser-sync");
 const { render } = require("pug");
 
 module.exports = (connDB, io) => {
@@ -38,10 +39,10 @@ module.exports = (connDB, io) => {
                 weightedSumStudents = getWeightedSum(bookingPatternsStudents, roomSize, date);
             
                 roomRatios          = getRoomRatio(bookingPatternsStudents, roomSize, date);
-                teachRatios         = getTeachRatios(sumTeachers, weightedSumStudents) 
+                teachRatios         = getTeachRatios(sumTeachers, weightedSumStudents);
 
                 getDropDownNames(connDB, roomNo, date, toggle, function(result){
-                    nameArray = result
+                    nameArray = result;
 
                     /*
                     console.log("BP TEACHERS: ",bookingPatternsTeachers)
@@ -53,6 +54,18 @@ module.exports = (connDB, io) => {
                     console.log("TEACH RATIO: "+teachRatios)
                     */
 
+                    // 1 YEAR OF VALUES FOR ROOMRATIO AND TEACHRATIO 
+                    getTeachSumYear(connDB, roomNo, roomSize, function(result){
+                        var sumTeachersYear = result;
+                        getStudSumYear(connDB, roomNo, roomSize, function(result, rooms){
+                            SumStudentsYear = result;
+                            roomRatiosYear = rooms;
+                            teachRatiosYear = getTeachRatiosYear(sumTeachersYear, SumStudentsYear);
+
+                        });
+                        /////////////////////////////////////////////
+                    });
+                    
                     switch(toggle){
                         case "Teacher":
                             bookingPatterns = bookingPatternsTeachers;
@@ -65,12 +78,9 @@ module.exports = (connDB, io) => {
                 });
             }); 
         });
-       
-
     }
     bookingPatternsController.futureBookingPatterns = (req, res, next) => {
         for(i = 0; i < 52; i++){
-
             bookingPatterns()
         }
     }
@@ -130,45 +140,47 @@ function getWeight(ageMonths){
 function getRoomRatio(results, roomSize, date){
 
     roomRatios = [roomSize, roomSize, roomSize, roomSize, roomSize, roomSize, roomSize, roomSize, roomSize, roomSize]
-    
 
     date = new Date(date)
-        for( i in results){
-            var ageMonths = date.getMonth() - results[i].DoB.getMonth() + 12 * (date.getFullYear() - results[i].DoB.getFullYear());   
-            if(results[i].Mm){ 
-                roomRatios[0]-=getRule(ageMonths);
-            }
-            if(results[i].Ma){ 
-                roomRatios[1]-=getRule(ageMonths);
-            }
-            if(results[i].Tm){ 
-                roomRatios[2]-=getRule(ageMonths);
-            }
-            if(results[i].Ta){ 
-                roomRatios[3]-=getRule(ageMonths);
-            }
-            if(results[i].Wm){ 
-                roomRatios[4]-=getRule(ageMonths);
-            }
-            if(results[i].Wa){ 
-                roomRatios[5]-=getRule(ageMonths);
-            }
-            if(results[i].Thm){
-                roomRatios[6]-=getRule(ageMonths);
-            }
-            if(results[i].Tha){ 
-                roomRatios[7]-=getRule(ageMonths);
-            }
-            if(results[i].Fm){ 
-                roomRatios[8]-=getRule(ageMonths);
-            }
-            if(results[i].Fa){ 
-                roomRatios[9]-=getRule(ageMonths);
-            }
-        }
-        return roomRatios.map(x => x.toPrecision(3));
+    //console.log(results[results.length-1])
+                                   
+    for(a in results){
 
+        var ageMonths = date.getMonth() - results[a].DoB.getMonth() + 12 * (date.getFullYear() - results[a].DoB.getFullYear());   
+        if(results[a].Mm){ 
+            roomRatios[0]-=getRule(ageMonths);
+        }
+        if(results[a].Ma){ 
+            roomRatios[1]-=getRule(ageMonths);
+        }
+        if(results[a].Tm){ 
+            roomRatios[2]-=getRule(ageMonths);
+        }
+        if(results[a].Ta){ 
+            roomRatios[3]-=getRule(ageMonths);
+        }
+        if(results[a].Wm){ 
+            roomRatios[4]-=getRule(ageMonths);
+        }
+        if(results[a].Wa){ 
+            roomRatios[5]-=getRule(ageMonths);
+        }
+        if(results[a].Thm){
+            roomRatios[6]-=getRule(ageMonths);
+        }
+        if(results[a].Tha){ 
+            roomRatios[7]-=getRule(ageMonths);
+        }
+        if(results[a].Fm){ 
+            roomRatios[8]-=getRule(ageMonths);
+        }
+        if(results[a].Fa){ 
+            roomRatios[9]-=getRule(ageMonths);
+        }
     }
+    return roomRatios.map(x => x.toPrecision(3));
+
+}
 
 
 /*
@@ -241,38 +253,38 @@ function getWeightedSum(results, roomSize, date){
 
 */
 
-function getTeachSum(results){
+function getTeachSum(results, roomNo){
     teachSum = [0,0,0,0,0,0,0,0,0,0]
 
     for( i in results){
-        if(results[i].Mm){ 
+        if(results[i].Mm== roomNo){ 
             teachSum[0] += 1;
         }
-        if(results[i].Ma){  
+        if(results[i].Ma== roomNo){  
             teachSum[1] += 1;
         }
-        if(results[i].Tm){  
+        if(results[i].Tm== roomNo){  
             teachSum[2] += 1;
         }
-        if(results[i].Ta){  
+        if(results[i].Ta== roomNo){  
             teachSum[3] += 1;
         }
-        if(results[i].Wm){  
+        if(results[i].Wm== roomNo){  
             teachSum[4] += 1;
         }
-        if(results[i].Wa){  
+        if(results[i].Wa== roomNo){  
             teachSum[5] += 1;
         }
-        if(results[i].Thm){ 
+        if(results[i].Thm== roomNo){ 
             teachSum[6] += 1;
         }
-        if(results[i].Tha){  
+        if(results[i].Tha== roomNo){  
             teachSum[7] += 1;
         }
-        if(results[i].Fm){  
+        if(results[i].Fm== roomNo){  
             teachSum[8] += 1;
         }
-        if(results[i].Fa){  
+        if(results[i].Fa== roomNo){  
             teachSum[9] += 1;
         }
     }
@@ -331,48 +343,17 @@ async function getBookingPatternStudent(connDB, roomNo, date, callback){
     }
 
     connDB.query(
-        "SELECT Mm, Ma, Tm, Ta, Wm, Wa, Thm, Tha, Fm, Fa, \
-        Name, DoB, startDate, roomOneEnd, roomTwoEnd, roomThreeEnd "+ lowerDateCol +", "+ upperDateCol +" \
-        FROM BookingPattern_Students, Student \
-        WHERE BookingPattern_Students.idStudent = Student.idStudent \
-        AND Student.startDate < '"+ date +"'\
-        AND Student."+upperDateCol+" >  '"+ date +"'\
-        AND Student."+lowerDateCol+" <  '"+ date +"'\
-        GROUP BY Student.idStudent",
-        (error, results, fields) => {
-            if(error) {
-                console.log("error "+ error + "\n")
-            }
-            else if (!results.length) {                                                   
-                console.log('Error2');
-            }
-            else if (!results[0].something) {
-                console.log('Error3');
-            }
-            console.log(results)
-            callback(results)
-        }
-    );
-
-    }
-
-
-async function getBookingPatternTeacher(connDB, roomNo, date, callback){
-    connDB.query("\
-        SELECT *\
-        FROM (\
-            SELECT idTeacher, \
-            MIN(endDate) AS 'endDate' \
-            FROM BookingPattern_Teachers\
-            WHERE DATE(endDate) > '"+date+"'\
-            GROUP BY idTeacher\
-            )tmp \
-        JOIN BookingPattern_Teachers \
-        ON BookingPattern_Teachers.idTeacher = tmp.idTeacher\
-        JOIN Teacher \
-        ON tmp.idTeacher = Teacher.idTeacher\
-        WHERE tmp.endDate = BookingPattern_Teachers.endDate\
-        ORDER BY Name ASC\
+        "SELECT                                                         \
+            Mm, Ma, Tm, Ta, Wm, Wa, Thm, Tha, Fm, Fa,                   \
+            Name, DoB, startDate,                                       \
+            roomOneEnd, roomTwoEnd, roomThreeEnd                        \
+            "+ lowerDateCol +", "+ upperDateCol +"                      \
+        FROM BookingPattern_Students, Student                           \
+        WHERE BookingPattern_Students.idStudent = Student.idStudent     \
+        AND Student.startDate < '"+ date +"'                            \
+        AND Student."+upperDateCol+" >  '"+ date +"'                    \
+        AND Student."+lowerDateCol+" <  '"+ date +"'                    \
+        GROUP BY Student.idStudent                                      \
         ",
         (error, results, fields) => {
             if(error) {
@@ -381,8 +362,37 @@ async function getBookingPatternTeacher(connDB, roomNo, date, callback){
             else if (!results.length) {                                                   
                 console.log('Error2');
             }
-            else if (!results[0].something) {
-                console.log('Error3');
+            
+            callback(results)
+        }
+    );
+
+    }
+
+
+async function getBookingPatternTeacher(connDB, roomNo, date, callback){
+    connDB.query("                                          \
+        SELECT *                                            \
+        FROM (                                              \
+            SELECT idTeacher,                               \
+            MIN(endDate) AS 'endDate'                       \
+            FROM BookingPattern_Teachers                    \
+            WHERE DATE(endDate) > '"+date+"'                \
+            GROUP BY idTeacher                              \
+            )tmp                                            \
+        JOIN BookingPattern_Teachers                        \
+        ON BookingPattern_Teachers.idTeacher = tmp.idTeacher\
+        JOIN Teacher                                        \
+        ON tmp.idTeacher = Teacher.idTeacher                \
+        WHERE tmp.endDate = BookingPattern_Teachers.endDate \
+        ORDER BY Name ASC                                   \
+        ",
+        (error, results, fields) => {
+            if(error) {
+                console.log("error "+ error + "\n")
+            }
+            else if (!results.length) {                                                   
+                console.log('Error2');
             }
             callback(results)
         }
@@ -398,9 +408,6 @@ function getRoomSize(connDB, roomNo, callback){
             }
             else if (!results.length) {                                                   
                 console.log('Error2');
-            }
-            else if (!results[0].something) {
-                console.log('Error3');
             }
             return callback(results[0].Size)
         }
@@ -434,11 +441,11 @@ function getDropDownNames(connDB, roomNo, date, toggle, callback){
         }
 
         connDB.query(
-            "SELECT \
-                Name, "+ lowerDateCol +", "+ upperDateCol +" \
-                FROM Student \
-                WHERE Student."+upperDateCol+" <  '"+ date +"'\
-                OR Student."+lowerDateCol+" >  '"+ date +"'\
+            "SELECT                                             \
+                Name, "+ lowerDateCol +", "+ upperDateCol +"    \
+                FROM Student                                    \
+                WHERE Student."+upperDateCol+" <  '"+ date +"'  \
+                OR Student."+lowerDateCol+" >  '"+ date +"'     \
                 GROUP BY Student.idStudent",
             (error, results, fields) => {
                 if(error) {
@@ -447,19 +454,18 @@ function getDropDownNames(connDB, roomNo, date, toggle, callback){
                 else if (!results.length) {                                                   
                     console.log('Error2');
                 }
-                else if (!results[0].something) {
-                    console.log('Error3');
-                }   
+                  
                 callback(results)
             }
         );
     }
     else if (toggle == "Teacher"){
         connDB.query(
-            "SELECT \
-                Name \
-                FROM Teacher \
-                GROUP BY Teacher.idTeacher",
+            "SELECT                         \
+                Name                        \
+                FROM Teacher                \
+                GROUP BY Teacher.idTeacher  \
+                ",
             (error, results, fields) => {
                 if(error) {
                     console.log("error "+ error + "\n")
@@ -467,12 +473,113 @@ function getDropDownNames(connDB, roomNo, date, toggle, callback){
                 else if (!results.length) {                                                   
                     console.log('Error2');
                 }
-                else if (!results[0].something) {
-                    console.log('Error3');
-                }   
                 callback(results)
             }
         );
     }
 }
 
+/** ---------- YEAR QUERIES ---------- */
+
+function getTeachRatiosYear(sumTeachersYear, SumStudentsYear){
+    teachRatiosYear = []
+    for(x in sumTeachersYear){
+        teachRatiosWeek = getTeachRatios(sumTeachersYear[x], SumStudentsYear[x])
+        teachRatiosYear.push(teachRatiosWeek);
+    }
+    return teachRatiosYear;
+}
+
+function getStudSumYear(connDB, roomNo, roomSize, callback){
+    connDB.query("SELECT *                                          \
+    FROM BookingPattern_Students, Student                           \
+    WHERE BookingPattern_Students.idStudent = Student.idStudent     \
+    ",
+    (error, results, fields) => {
+        if(error) {
+            console.log("error "+ error + "\n")
+        }
+        else if (!results.length) {                                                   
+            console.log('Error2');
+        }
+        var date = new Date()
+        studentsYear = []
+        roomYear = []
+        date.setDate(date.getDate() - 7);
+
+        for(p=0; p<52; p++){
+            
+            studentsWeek = []
+            date.setDate(date.getDate() + 7);
+
+            for(q in results){
+                if(roomNo == 3){
+                    if(results[q].roomTwoEnd < date && results[q].roomThreeEnd > date){
+                        studentsWeek.push(results[q])
+                    }
+                }
+                if(roomNo == 2){
+                    if(results[q].roomOneEnd < date && results[q].roomTwoEnd > date){
+                        studentsWeek.push(results[q])
+                    }
+                }
+                if(roomNo == 1){
+                    if(results[q].startDate < date && results[q].roomOneEnd > date){
+                        studentsWeek.push(results[q])
+                    }
+                }
+            }
+
+            strDate = (date.toJSON().toString().slice(0, 10))
+            roomWeek = getRoomRatio(studentsWeek, roomSize, strDate)
+            studentsWeek = getWeightedSum(studentsWeek, roomSize, strDate)
+
+            studentsYear.push(studentsWeek)
+            roomYear.push(roomWeek)
+
+        }
+        callback(studentsYear, roomYear)
+    })
+}
+
+function getTeachSumYear(connDB, roomNo, roomSize, callback){
+    teachersYear = []
+
+    connDB.query("SELECT * FROM BookingPattern_Teachers ORDER BY idTeacher, endDate ASC",
+    (error, results, fields) => {
+        if(error) {
+            console.log("error "+ error + "\n")
+        }
+        else if (!results.length) {                                                   
+            console.log('Error2');
+        }
+        //init date to 1 week ago
+        var date = new Date()
+
+        date.setDate(date.getDate() - 7);
+
+        for(k=0; k<52; k++){
+
+            var prevID = -1
+            var teachersWeek = []
+
+            //incr date by 1 week
+            date.setDate(date.getDate() + 7);
+
+            for(l in results){
+                if(results[l].idTeacher != prevID){
+                    if(results[l].endDate > date){
+                        prevID = results[l].idTeacher
+                        teachersWeek.push(results[l]);
+
+                    }
+                }
+            }
+
+            teachersWeek = getTeachSum(teachersWeek, roomNo)
+            teachersYear.push(teachersWeek)
+        }
+        callback(teachersYear)
+    })
+
+}
